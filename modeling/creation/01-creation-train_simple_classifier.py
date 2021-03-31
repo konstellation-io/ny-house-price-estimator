@@ -22,7 +22,7 @@ FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = "http://mlflow-server:5000"
 MLFLOW_EXPERIMENT = "airbnb-specify-mlflow-artifacts"
-MLFLOW_RUN_NAME = "test-track-artifacts"
+MLFLOW_RUN_NAME = "test-artifact-tracking"
 
 
 def main():
