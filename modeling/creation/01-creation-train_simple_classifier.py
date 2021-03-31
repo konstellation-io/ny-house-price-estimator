@@ -24,9 +24,9 @@ MLFLOW_EXPERIMENT = "airbnb-specify-s3-mlflow-artifacts"
 MLFLOW_RUN_NAME = "test-artifact-tracking"
 
 RF_PARAMS = dict(
-    n_estimators = [100, 200, 400], 
-    max_depth = [4, 6, 8, 12, 16],
-    max_features = [0.4, 0.6, 0.8],
+    n_estimators = [100], 
+    max_depth = [4],
+    max_features = [0.4],
     min_samples_split = [2, 4],
     class_weight=["balanced"], 
     random_state=[0]
