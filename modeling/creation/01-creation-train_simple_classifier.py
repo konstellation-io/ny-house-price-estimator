@@ -52,6 +52,7 @@ def main():
         
         # Log to MLflow
         mlflow.log_params(CLF_PARAMS)
+        mlflow.log_artifact(FILEPATH_MODEL)
 
 
 if __name__ == "__main__":
