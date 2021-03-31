@@ -21,7 +21,7 @@ DIR_MODEL = Path(MINIO_DATA_FOLDER).parent / "models"
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = "http://mlflow-server:5000"
-MLFLOW_EXPERIMENT = "airbnb-specify-mlflow-artifacts"
+MLFLOW_EXPERIMENT = "airbnb-specify-s3-mlflow-artifacts"
 MLFLOW_RUN_NAME = "test-artifact-tracking"
 
 
