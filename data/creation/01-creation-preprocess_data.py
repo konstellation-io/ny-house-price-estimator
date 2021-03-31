@@ -14,6 +14,21 @@ FILEPATH_INPUT = DIR_DATA_RAW / "listings.csv"
 FILEPATH_OUTPUT = DIR_DATA_PROCESSED / "listings_processed.csv"
 
 
+# Categorical variable mapping dictionaries
+MAP_ROOM_TYPE = {
+    'Shared room': 1,
+    'Private room': 2,
+    'Entire home/apt': 3,
+    'Hotel room': 4}
+
+MAP_NEIGHB = {
+    'Bronx': 1,
+    'Queens': 2,
+    'Staten Island': 3,
+    'Brooklyn': 4,
+    'Manhattan': 5}
+
+
 def preprocess_target_variable(df: DataFrame) -> DataFrame:
     """
     Converts the target variable column from string to numeric ('$100.00' -> 100)
@@ -69,6 +84,10 @@ def main():
 
     # Create amenities features
     df = preprocess_amenities_column(df)
+
+    # Map categorical features
+    df['neighbourhood'] = df['neighbourhood'].map(MAP_NEIGHB)
+    df['room_type'] = df['room_type'].map(MAP_ROOM_TYPE)
 
     # Save to Minio
     df.to_csv(FILEPATH_OUTPUT)
