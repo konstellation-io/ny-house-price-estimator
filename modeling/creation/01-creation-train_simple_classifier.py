@@ -22,7 +22,8 @@ FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = "http://mlflow-server:5000"
 MLFLOW_EXPERIMENT = "ny-price-estimation"
-    
+MLFLOW_RUN_NAME = "test-track-params"
+
 
 def main():
     
