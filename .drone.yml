@@ -2,6 +2,10 @@ kind: pipeline
 type: kubernetes
 name: preprocess-data
 
+trigger:
+  ref:
+  - refs/tags/preprocess-data-*
+
 environment:
   AWS_ACCESS_KEY_ID: minio
   AWS_SECRET_ACCESS_KEY: minio123
