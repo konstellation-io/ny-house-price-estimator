@@ -56,6 +56,7 @@ def preprocess_amenities_column(df: DataFrame) -> DataFrame:
 def main():
 
     # Read data from Minio
+    print(os.listdir(MINIO_DATA_FOLDER))
     df_raw = pd.read_csv(FILEPATH_INPUT)    
     
     # Subset on columns of choice
