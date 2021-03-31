@@ -5,7 +5,7 @@ name: preprocess-data
 environment:
   AWS_ACCESS_KEY_ID: minio
   AWS_SECRET_ACCESS_KEY: minio123
-  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimation/data
+  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
 
 steps:
 
