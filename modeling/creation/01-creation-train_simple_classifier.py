@@ -82,7 +82,7 @@ def main():
                 mlflow.log_param("amenities", INCLUDE_AMENITIES)
 
                 mlflow.log_metrics(metrics)
-                # mlflow.log_artifact(str(FILEPATH_MODEL))
+                mlflow.log_artifact(str(FILEPATH_MODEL))
 
 
 if __name__ == "__main__":
