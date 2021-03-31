@@ -1,0 +1,54 @@
+kind: pipeline
+type: kubernetes
+name: preprocess-data
+
+trigger:
+  ref:
+  - refs/tags/preprocess-data-*
+
+environment:
+  AWS_ACCESS_KEY_ID: minio
+  AWS_SECRET_ACCESS_KEY: minio123
+  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+
+steps:
+
+  - name: preprocess-airbnb-data
+    image: terminus7/sci-toolkit-runner:1.1.0
+    commands:
+      - python3 "data/creation/01-creation-preprocess_data.py"
+    volumes:
+        - name: shared-storage
+          path: /shared-storage
+
+volumes:
+  - name: shared-storage
+    claim:
+      name: received-data-claim
+
+--- 
+
+kind: pipeline
+type: kubernetes
+name: model-training
+
+environment:
+  AWS_ACCESS_KEY_ID: minio
+  AWS_SECRET_ACCESS_KEY: minio123
+  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+
+
+steps:
+
+  - name: train-simple-classifier
+    image: terminus7/sci-toolkit-runner:1.1.0
+    commands:
+      - python3 "model/creation/01-creation-train_simple_classifier.py"
+    volumes:
+        - name: shared-storage
+          path: /shared-storage
+
+volumes:
+  - name: shared-storage
+    claim:
+      name: received-data-claim
