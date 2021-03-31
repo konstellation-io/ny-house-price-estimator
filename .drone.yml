@@ -43,7 +43,7 @@ steps:
   - name: train-simple-classifier
     image: terminus7/sci-toolkit-runner:1.1.0
     commands:
-      - python3 "model/creation/01-creation-train_simple_classifier.py"
+      - python3 "modeling/creation/01-creation-train_simple_classifier.py"
     volumes:
         - name: shared-storage
           path: /shared-storage
