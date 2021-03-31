@@ -2,6 +2,7 @@ import joblib
 import os
 from pathlib import Path
 
+import mlflow
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
@@ -19,24 +20,37 @@ FILEPATH_DATA = DIR_DATA_PROCESSED / "listings_processed.csv"
 DIR_MODEL = Path(MINIO_DATA_FOLDER).parent / "models"
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
+MLFLOW_URL = "http://mlflow-server:5000"
+MLFLOW_EXPERIMENT = "ny-price-estimation"
+    
 
 def main():
     
-    # Read input data
-    df = pd.read_csv(FILEPATH_DATA, index_col=0).dropna(axis=0)
+    mlflow.set_tracking_uri(MLFLOW_URL)
+    mlflow.set_experiment(MLFLOW_EXPERIMENT)
+    
+    with mlflow.start_run(run_name=MLFLOW_RUN_NAME)
+        
+        # Read input data
+        df = pd.read_csv(FILEPATH_DATA, index_col=0).dropna(axis=0)
 
-    # Set up training and testing data
-    FEATURE_NAMES = ['neighbourhood', 'room_type', 'accommodates', 'bathrooms', 'bedrooms']
-    X = df[FEATURE_NAMES]
-    y = df['category']
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=1)
+        # Set up training and testing data
+        FEATURE_NAMES = ['neighbourhood', 'room_type', 'accommodates', 'bathrooms', 'bedrooms']
+        X = df[FEATURE_NAMES]
+        y = df['category']
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=1)
 
-    # Train model
-    clf = RandomForestClassifier(n_estimators=120, random_state=0)
-    clf.fit(X_train, y_train)
+        # Train model
+        CLF_PARAMS = dict(n_estimators=120, random_state=0)
 
-    # Save model
-    joblib.dump(clf, FILEPATH_MODEL)
+        clf = RandomForestClassifier(**CLF_PARAMS)
+        clf.fit(X_train, y_train)
+
+        # Save model
+        joblib.dump(clf, FILEPATH_MODEL)
+        
+        # Log to MLflow
+        mlflow.log_params(CLF_PARAMS)
 
 
 if __name__ == "__main__":
