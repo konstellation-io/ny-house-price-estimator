@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 
 import mlflow
+from mlflow.tracking import MlflowClient
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
@@ -20,7 +21,7 @@ DIR_MODEL = Path(MINIO_DATA_FOLDER).parent / "models"
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = os.getenv("MLFLOW_URL")
-MLFLOW_EXPERIMENT = "ny-price-estimation"
+MLFLOW_EXPERIMENT = "airbnb-specify-s3-mlflow-artifacts"
 MLFLOW_RUN_NAME = "test-artifact-tracking"
 
 RF_PARAMS = dict(
@@ -32,12 +33,14 @@ RF_PARAMS = dict(
     random_state=[0]
 )
 
-INCLUDE_AMENITIES = False
+INCLUDE_AMENITIES = True
         
 
 def main():
     
     mlflow.set_tracking_uri(MLFLOW_URL)
+
+    
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
     
     with mlflow.start_run(run_name=MLFLOW_RUN_NAME):
