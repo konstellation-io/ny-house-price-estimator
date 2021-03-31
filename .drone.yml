@@ -1,18 +1,18 @@
-kind: secret
-name: minio-key-id
-get:
-  path: mlflow-server-secret
-  name: AWS_ACCESS_KEY_ID
+# kind: secret
+# name: minio-key-id
+# get:
+#   path: mlflow-server-secret
+#   name: AWS_ACCESS_KEY_ID
 
----
+# ---
 
-kind: secret
-name: minio-secret
-get:
-  path: mlflow-server-secret
-  name: AWS_SECRET_ACCESS_KEY
+# kind: secret
+# name: minio-secret
+# get:
+#   path: mlflow-server-secret
+#   name: AWS_SECRET_ACCESS_KEY
 
----
+# ---
 
 kind: pipeline
 type: kubernetes
@@ -49,11 +49,10 @@ type: kubernetes
 name: model-training
 
 environment:
-  
-  AWS_ACCESS_KEY_ID: 
-    from_secret: minio-key-id
-  AWS_SECRET_ACCESS_KEY: 
-    from_secret: minio-secret
+  AWS_ACCESS_KEY_ID: minio
+    # from_secret: minio-key-id
+  AWS_SECRET_ACCESS_KEY: minio123
+    # from_secret: minio-secret
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
