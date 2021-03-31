@@ -18,18 +18,21 @@ kind: pipeline
 type: kubernetes
 name: preprocess-data
 
-trigger:
-  ref:
-  - refs/tags/preprocess-data-*
+# trigger:
+#   ref:
+#   - refs/tags/preprocess-data-*
 
 environment:
-  # AWS_ACCESS_KEY_ID: minio
-  # AWS_SECRET_ACCESS_KEY: minio123
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
-
+     
 steps:
   - name: preprocess-airbnb-data
     image: terminus7/sci-toolkit-runner:1.1.0
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio-key-id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio-secret
     commands:
       - python3 "data/creation/01-creation-preprocess_data.py"
     volumes:
