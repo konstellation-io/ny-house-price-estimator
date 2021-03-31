@@ -36,7 +36,8 @@ environment:
   AWS_ACCESS_KEY_ID: minio
   AWS_SECRET_ACCESS_KEY: minio123
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
-
+  MLFLOW_URL: http://mlflow-server:5000
+  MLFLOW_S3_ENDPOINT_URL: http://science-toolkit-minio:9000
 
 steps:
 
