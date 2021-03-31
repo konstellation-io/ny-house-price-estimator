@@ -29,7 +29,7 @@ def main():
     mlflow.set_tracking_uri(MLFLOW_URL)
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
     
-    with mlflow.start_run(run_name=MLFLOW_RUN_NAME)
+    with mlflow.start_run(run_name=MLFLOW_RUN_NAME):
         
         # Read input data
         df = pd.read_csv(FILEPATH_DATA, index_col=0).dropna(axis=0)
