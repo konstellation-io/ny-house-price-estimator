@@ -6,10 +6,9 @@ import mlflow
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
-from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import classification_report, confusion_matrix
+from sklearn.metrics import accuracy_score, roc_auc_score, classification_report, confusion_matrix
+from sklearn.model_selection import train_test_split, ParameterGrid
 
 
 MINIO_DATA_FOLDER = os.getenv("MINIO_DATA_FOLDER")
@@ -24,6 +23,13 @@ MLFLOW_URL = os.getenv("MLFLOW_URL")
 MLFLOW_EXPERIMENT = "airbnb-specify-s3-mlflow-artifacts"
 MLFLOW_RUN_NAME = "test-artifact-tracking"
 
+PARAM_GRID = dict(
+    n_estimators = [100, 200, 400], 
+    max_depth = [4, 6, None],
+    min_samples_split = [2, 4],
+    class_weight=["balanced"], 
+    random_state=[0]
+)
 
 def main():
     
@@ -41,18 +47,29 @@ def main():
         y = df['category']
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=1)
 
-        # Train model
-        CLF_PARAMS = dict(n_estimators=120, random_state=0)
-
-        clf = RandomForestClassifier(**CLF_PARAMS)
-        clf.fit(X_train, y_train)
-
-        # Save model
-        joblib.dump(clf, FILEPATH_MODEL)
         
-        # Log to MLflow
-        mlflow.log_params(CLF_PARAMS)
-        mlflow.log_artifact(str(FILEPATH_MODEL))
+        for params in ParameterGrid(PARAM_GRID):        
+            with mlflow.start_run(run_name=MLFLOW_RUN_NAME, nested=True):
+                
+                # Train model
+                clf = RandomForestClassifier(**params, n_jobs=4)
+                clf.fit(X_train, y_train)
+
+                # Save model
+                joblib.dump(clf, FILEPATH_MODEL)
+
+                # Evaluate
+                y_pred = clf.predict(X_test)
+                y_proba = clf.predict_proba(X_test)
+
+                metrics = dict()
+                metrics['accuracy'] = accuracy_score(y_test, y_pred)
+                metrics['roc_auc'] = roc_auc_score(y_test, y_proba, multi_class='ovr')
+                
+                # Log to MLflow
+                mlflow.log_params(params)
+                mlflow.log_metrics(metrics)
+                # mlflow.log_artifact(str(FILEPATH_MODEL))
 
 
 if __name__ == "__main__":
