@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 
 import mlflow
+from mlflow.exceptions import MlflowException
 from mlflow.tracking import MlflowClient
 import numpy as np
 import pandas as pd
@@ -39,8 +40,6 @@ INCLUDE_AMENITIES = True
 def main():
     
     mlflow.set_tracking_uri(MLFLOW_URL)
-
-    
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
     
     with mlflow.start_run(run_name=MLFLOW_RUN_NAME):
