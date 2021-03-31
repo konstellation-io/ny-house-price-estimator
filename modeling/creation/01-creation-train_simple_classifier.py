@@ -23,13 +23,16 @@ MLFLOW_URL = os.getenv("MLFLOW_URL")
 MLFLOW_EXPERIMENT = "airbnb-specify-s3-mlflow-artifacts"
 MLFLOW_RUN_NAME = "test-artifact-tracking"
 
-PARAM_GRID = dict(
+RF_PARAMS = dict(
     n_estimators = [100, 200, 400], 
     max_depth = [4, 6, None],
     min_samples_split = [2, 4],
     class_weight=["balanced"], 
     random_state=[0]
 )
+
+INCLUDE_AMENITIES = True
+
 
 def main():
     
@@ -42,13 +45,20 @@ def main():
         df = pd.read_csv(FILEPATH_DATA, index_col=0).dropna(axis=0)
 
         # Set up training and testing data
-        FEATURE_NAMES = ['neighbourhood', 'room_type', 'accommodates', 'bathrooms', 'bedrooms']
-        X = df[FEATURE_NAMES]
+        feature_names = ['neighbourhood', 'room_type', 'accommodates', 'bathrooms', 'bedrooms']
+        amenities = ['TV', 'Internet', 'Air_conditioning', 'Kitchen', 'Heating', 'Wifi', 'Elevator', 'Breakfast']
+
+        if INCLUDE_AMENITIES:
+            cols = feature_names + amenities
+        else:
+            cols = feature_names
+
+        X = df[cols]
         y = df['category']
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=1)
-
         
-        for params in ParameterGrid(PARAM_GRID):        
+        # Iterate through hyperparameter space:
+        for params in ParameterGrid(RF_PARAMS):        
             with mlflow.start_run(run_name=MLFLOW_RUN_NAME, nested=True):
                 
                 # Train model
@@ -68,6 +78,8 @@ def main():
                 
                 # Log to MLflow
                 mlflow.log_params(params)
+                mlflow.log_param("amenities", INCLUDE_AMENITIES)
+
                 mlflow.log_metrics(metrics)
                 # mlflow.log_artifact(str(FILEPATH_MODEL))
 
