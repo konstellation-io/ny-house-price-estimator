@@ -17,7 +17,7 @@ FILEPATH_OUTPUT = DIR_DATA_PROCESSED / "listings_processed.csv"
 def preprocess_target_variable(df: DataFrame) -> DataFrame:
     """
     Converts the target variable column from string to numeric ('$100.00' -> 100)
-    and creates price categories.
+    and creates price categories corresponding to low/mid/high/luxury properties.
     """
     df['price'] = df['price'].str.extract(r"(\d+).")
     df['price'] = df['price'].astype(int)
