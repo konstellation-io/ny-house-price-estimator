@@ -18,9 +18,9 @@ kind: pipeline
 type: kubernetes
 name: preprocess-data
 
-# trigger:
-#   ref:
-#   - refs/tags/preprocess-data-*
+trigger:
+  ref:
+  - refs/tags/preprocess-data-*
 
 environment:
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
