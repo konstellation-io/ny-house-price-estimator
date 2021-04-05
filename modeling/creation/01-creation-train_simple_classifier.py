@@ -40,7 +40,7 @@ RF_PARAMS = dict(
 INCLUDE_AMENITIES = False
         
 
-def plot_confusion_matrix(y_pred: np.ndarray, y_true: np.ndarray, filepath: str, classes=[0, 1, 2, 3]: list, labels=['low', 'mid', 'high', 'lux']: list) -> None:
+def plot_confusion_matrix(y_pred: np.ndarray, y_true: np.ndarray, filepath: str, classes: list = [0, 1, 2, 3], labels: list = ['low', 'mid', 'high', 'lux']) -> None:
     """ 
     Given arrays for predictions (y_pred) and true values (y_true) of a binary variable, plots a confusion matrix for the classes 
     with their provided labels and saves it to the location specified in filepath.
