@@ -46,7 +46,7 @@ def main():
     # Temporary code 
     client = mlflow.tracking.MlflowClient(tracking_uri=MLFLOW_URL)
     if not MLFLOW_EXPERIMENT in [exp.name for exp in client.list_experiments()]:
-        client.create_experiment(os.getenv(MLFLOW_EXPERIMENT), artifact_location="s3://ny-price-estimator/mlflow-artifacts")
+        client.create_experiment(MLFLOW_EXPERIMENT, artifact_location="s3://ny-price-estimator/mlflow-artifacts")
 
     mlflow.set_tracking_uri(MLFLOW_URL)
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
