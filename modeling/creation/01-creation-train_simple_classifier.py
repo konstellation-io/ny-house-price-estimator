@@ -22,7 +22,7 @@ DIR_MODEL = Path(MINIO_DATA_FOLDER).parent / "models"
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = os.getenv("MLFLOW_URL")
-MLFLOW_EXPERIMENT = os.getenv("BUCKET_NAME")    # "airbnb-price-estimation"  #airbnb-specify-s3-mlflow-artifacts
+MLFLOW_EXPERIMENT = "airbnb-price-estimator" # os.getenv("BUCKET_NAME")    # "airbnb-price-estimation"  #airbnb-specify-s3-mlflow-artifacts
 MLFLOW_RUN_NAME = "test-mlflow-exp-creation"
 
 RF_PARAMS = dict(
@@ -42,6 +42,12 @@ def main():
     The main function of the script for training a simple classifier.
     """
     
+    
+    # Temporary code 
+    client = mlflow.tracking.MlflowClient(tracking_uri=MLFLOW_URL)
+    if not MLFLOW_EXPERIMENT in [exp.name for exp in client.list_experiments()]:
+        client.create_experiment(os.getenv(MLFLOW_EXPERIMENT), artifact_location="s3://ny-price-estimator/mlflow-artifacts")
+
     mlflow.set_tracking_uri(MLFLOW_URL)
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
     
