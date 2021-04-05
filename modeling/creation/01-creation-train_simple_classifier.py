@@ -37,7 +37,7 @@ RF_PARAMS = dict(
     random_state=[0]
 )
 
-INCLUDE_AMENITIES = False
+INCLUDE_AMENITIES = True
 
 
 def plot_confusion_matrix(
@@ -61,6 +61,7 @@ def plot_confusion_matrix(
     plt.yticks(ticks=np.arange(.5, len(classes)), labels=labels, rotation=0, fontsize=12)
     
     plt.savefig(filepath)
+    plt.close()
 
 
 def main():
