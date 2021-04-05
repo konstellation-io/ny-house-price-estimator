@@ -23,7 +23,6 @@ trigger:
   - refs/tags/preprocess-data-*
 
 environment:
-  BUCKET_NAME: ny-price-estimator
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
      
 steps:
@@ -51,12 +50,14 @@ kind: pipeline
 type: kubernetes
 name: model-training
 
+trigger:
+  ref:
+  - refs/tags/train-model-*
+
 environment:
-  BUCKET_NAME: NY-price-estimator
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
-  
 
 steps:
   - name: train-simple-classifier
