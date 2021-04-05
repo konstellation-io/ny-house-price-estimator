@@ -97,6 +97,14 @@ environment:
 
 
 steps:
+  - name: test-etl
+    image: python:3.9-slim
+    commands:
+      - cd runtime/src/etl
+      - pip install pipenv 
+      - pipenv install --dev --system 
+      - pipenv run pytest .
+
   - name: build-krt
     image: docker:19
     environment:
