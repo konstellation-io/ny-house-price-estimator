@@ -109,7 +109,7 @@ def main():
                 metrics['accuracy'] = accuracy_score(y_test, y_pred)
                 metrics['roc_auc'] = roc_auc_score(y_test, y_proba, multi_class='ovr')
                 
-                plot_confusion_matrix(y_pred=y_pred, y_test=y_test, filepath=str(DIR_PATH / "confusion_matrix.png"))
+                plot_confusion_matrix(y_pred=y_pred, y_true=y_test, filepath=str(DIR_TEMP / "confusion_matrix.png"))
 
                 # Log to MLflow
                 mlflow.log_params(params)
@@ -117,7 +117,7 @@ def main():
 
                 mlflow.log_metrics(metrics)
                 mlflow.log_artifact(str(FILEPATH_MODEL))
-                mlflow.log_artifacts(str(DIR_PATH))
+                mlflow.log_artifacts(str(DIR_TEMP))
 
 
 if __name__ == "__main__":
