@@ -70,7 +70,7 @@ def main():
         client.create_experiment(MLFLOW_EXPERIMENT, artifact_location="s3://ny-price-estimator/mlflow-artifacts")
 
     mlflow.set_tracking_uri(MLFLOW_URL)
-    mlflow.set_experiment_(MLFLOW_EXPERIMENT)
+    mlflow.set_experiment(MLFLOW_EXPERIMENT)
 
     with mlflow.start_run(run_name=MLFLOW_RUN_NAME):
         
