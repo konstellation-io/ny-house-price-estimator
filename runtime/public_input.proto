@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package entrypoint;
+option go_package = "main";
+
+message Request {
+  string room_type = 1;
+  int32 bedrooms = 2;
+  float bathrooms = 3;
+  int32 accommodates = 4;
+  int32 beds = 5;
+  string neighbourhood = 6;
+  float latitude = 7;
+  float longitude = 8;
+  int32 tv = 9;
+  int32 elevator = 10;
+  int32 internet = 11;
+}
+
+message Response {
+  bool success = 1;
+  string message = 2;
+  string market_price = 3;
+  string category = 4;
+}
+
+message SaveMetricRequest {
+  string predicted_category = 1;
+  string real_category = 2;
+  int64  date = 3;
+}
+
+message SaveMetricResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+service Entrypoint {
+  rpc MakePrediction(Request) returns (Response) {};
+  rpc SavePredictionMetric(SaveMetricRequest) returns (SaveMetricResponse) {};
+};

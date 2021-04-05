@@ -1,0 +1,36 @@
+version: price-estimator-v3
+description: New Room Price predictions.
+
+entrypoint:
+  proto: public_input.proto
+  image: konstellation/kre-entrypoint:1.6.0
+
+config:
+  variables:
+    - OUTPUT_PRICE_CURRENCY
+
+nodes:
+  - name: etl
+    image: konstellation/kre-py:1.23.1
+    src: src/etl/main.py
+  - name: model
+    image: konstellation/kre-py:1.23.1
+    src: src/model/main.py
+  - name: output
+    image: konstellation/kre-py:1.23.1
+    src: src/output/main.py
+  - name: save-metric
+    image: konstellation/kre-py:1.23.1
+    src: src/save-prediction-metric/main.py
+
+workflows:
+  - name: ny-room-price
+    entrypoint: MakePrediction
+    sequential:
+      - etl
+      - model
+      - output
+  - name: save-metric
+    entrypoint: SavePredictionMetric
+    sequential:
+      - save-metric

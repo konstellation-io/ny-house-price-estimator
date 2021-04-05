@@ -45,7 +45,6 @@ volumes:
       name: received-data-claim
 
 ---
-
 kind: pipeline
 type: kubernetes
 name: model-training
@@ -72,6 +71,104 @@ steps:
     volumes:
         - name: shared-storage
           path: /shared-storage
+
+volumes:
+  - name: shared-storage
+    claim:
+      name: received-data-claim
+
+---
+kind: pipeline
+type: kubernetes
+name: build-runtime
+
+trigger:
+  ref:
+  - refs/tags/krt-*
+
+environment:
+  MINIO_KRT_FOLDER: /shared-storage/ny-price-estimator/krt
+  MLFLOW_URL: http://mlflow-server:5000
+  MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
+  KLI_VERSION: 1.0-alpha.4
+  KLI_REPO: 'git@github.com:konstellation-io/kli.git'
+  KRE_API_URL: 'https://api.kre-demo.konstellation.io'
+  KRE_ENV: demo
+
+
+steps:
+  - name: build-krt
+    image: docker:19
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio-key-id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio-secret
+    commands:
+      - wget https://github.com/konstellation-io/kli/releases/download/v1.0-alpha.4/kli_1.0-alpha.4_linux_amd64.tar.gz 
+      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz 
+      - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
+      - TAG=$(echo $DRONE_TAG | sed 's/krt\-//g')
+      - CUSTOM_TAG=$(echo $TAG | sed 's/\.//g')
+      - MINIO_TAG=$(echo $TAG | sed 's/\./-/g')
+      - kli krt validate ./runtime/krt.yaml
+      - mkdir -p $MINIO_KRT_FOLDER
+      - kli krt create ./runtime $MINIO_KRT_FOLDER/price-estimator-$TAG.krt -v price-estimator-$CUSTOM_TAG
+    volumes:
+      - name: shared-storage
+        path: /shared-storage
+
+  - name: deploy-krt
+    image: docker:19
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio-key-id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio-secret
+      KRE_API_TOKEN:
+        from_secret: KRE_API_TOKEN
+    commands:
+      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz 
+      - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
+      - TAG=$(echo $DRONE_TAG | sed 's/krt\-//g')
+      - CUSTOM_TAG=$(echo $TAG | sed 's/\.//g')
+      - MINIO_TAG=$(echo $TAG | sed 's/\./-/g')
+      - kli server add $KRE_ENV $KRE_API_URL $KRE_API_TOKEN
+      - kli server ls
+      - kli server default $KRE_ENV
+      - kli kre version create $MINIO_KRT_FOLDER/price-estimator-$TAG.krt
+      - echo "waiting for version on created status"
+      - sleep 15
+      - kli kre version config --set OUTPUT_PRICE_CURRENCY=USD price-estimator-$CUSTOM_TAG
+      - kli kre version start price-estimator-$CUSTOM_TAG -m "start version from KDL"
+    volumes:
+      - name: shared-storage
+        path: /shared-storage
+
+  - name: publish-krt
+    image: docker:19
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio-key-id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio-secret
+      KRE_API_TOKEN:
+        from_secret: KRE_API_TOKEN
+    commands:
+      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz 
+      - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
+      - TAG=$(echo $DRONE_TAG | sed 's/krt\-//g')
+      - CUSTOM_TAG=$(echo $TAG | sed 's/\.//g')
+      - MINIO_TAG=$(echo $TAG | sed 's/\./-/g')
+      - kli server add $KRE_ENV $KRE_API_URL $KRE_API_TOKEN
+      - kli server default $KRE_ENV
+      - kli kre version publish price-estimator-${CUSTOM_TAG} -m "publish version from KDL"
+    volumes:
+      - name: shared-storage
+        path: /shared-storage
+    when:
+      event:
+      - promote
 
 volumes:
   - name: shared-storage

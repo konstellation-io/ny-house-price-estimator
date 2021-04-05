@@ -1,0 +1,1132 @@
+{
+	"meta": {
+		"chronografVersion": "1.8.4",
+		"sources": {
+			"10000": {
+				"name": "Runtime InfluxDB",
+				"link": "/chronograf/v1/sources/10000"
+			}
+		}
+	},
+	"dashboard": {
+		"id": "3",
+		"cells": [
+			{
+				"i": "ec185da2-159f-4046-9cd4-4e713c47ab42",
+				"x": 7,
+				"y": 3,
+				"w": 5,
+				"h": 3,
+				"name": "Accomodates|Bathrooms|Beds per category",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"accommodates\" or r._field == \"bathrooms\" or r._field == \"beds\" or r._field == \"prediction\"))\n  |> pivot(\n    rowKey:[\"_time\"],\n    columnKey: [\"_field\"],\n    valueColumn: \"_value\"\n  )\n  |> group(columns: [\"prediction\"], mode:\"by\")\n  |> drop(columns: [\"_measurement\", \"version\"])",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"accommodates\" or r._field == \"bathrooms\" or r._field == \"beds\" or r._field == \"prediction\"))\n  |> pivot(\n    rowKey:[\"_time\"],\n    columnKey: [\"_field\"],\n    valueColumn: \"_value\"\n  )\n  |> group(columns: [\"prediction\"], mode:\"by\")\n  |> drop(columns: [\"_measurement\", \"version\"])",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "table",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": false
+				},
+				"fieldOptions": [
+					{
+						"internalName": "_time",
+						"displayName": "Time",
+						"visible": true
+					},
+					{
+						"internalName": "bathrooms",
+						"displayName": "# Bathrooms",
+						"visible": true
+					},
+					{
+						"internalName": "beds",
+						"displayName": "# Beds",
+						"visible": true
+					},
+					{
+						"internalName": "prediction",
+						"displayName": "",
+						"visible": false
+					},
+					{
+						"internalName": "accommodates",
+						"displayName": "# Accommodates",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 0
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/ec185da2-159f-4046-9cd4-4e713c47ab42"
+				}
+			},
+			{
+				"i": "c554a1b1-ed6d-4e97-a4b6-a5ce5e5ece04",
+				"x": 0,
+				"y": 3,
+				"w": 7,
+				"h": 3,
+				"name": "Ev. predictions",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"prediction\"))\n  |> group(columns: [\"_value\"])\n  |> window(every: autoInterval)\n  |> map(fn: (r) => ({ r with repetitions: 1 }))\n  |> count(column: \"repetitions\")\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)\n  |> drop(columns: [\"table\", \"_start\", \"_stop\"])",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"prediction\"))\n  |> group(columns: [\"_value\"])\n  |> window(every: autoInterval)\n  |> map(fn: (r) => ({ r with repetitions: 1 }))\n  |> count(column: \"repetitions\")\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)\n  |> drop(columns: [\"table\", \"_start\", \"_stop\"])",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"0",
+							""
+						],
+						"label": "# predictions",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "b67cb664-4f71-4700-bdcf-c4adaf1c91be",
+						"type": "scale",
+						"hex": "#31C0F6",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "52dea07c-508b-4e44-b7d2-952ca5bccfd9",
+						"type": "scale",
+						"hex": "#A500A5",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					},
+					{
+						"id": "b8c81eba-56e1-4873-8245-a21e5957a366",
+						"type": "scale",
+						"hex": "#FF7E27",
+						"name": "Nineteen Eighty Four",
+						"value": "0"
+					}
+				],
+				"legend": {
+					"type": "static",
+					"orientation": "bottom"
+				},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/c554a1b1-ed6d-4e97-a4b6-a5ce5e5ece04"
+				}
+			},
+			{
+				"i": "0f62075d-aad4-4ad6-a720-c4723e157484",
+				"x": 2,
+				"y": 6,
+				"w": 5,
+				"h": 3,
+				"name": "Ev. room types",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"room_type\"))\n  |> group(columns: [\"_value\"])\n  |> window(every: autoInterval)\n  |> map(fn: (r) => ({ r with repetitions: 1 }))\n  |> count(column: \"repetitions\")\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)\n  |> drop(columns: [\"table\", \"_start\", \"_stop\"])",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"room_type\"))\n  |> group(columns: [\"_value\"])\n  |> window(every: autoInterval)\n  |> map(fn: (r) => ({ r with repetitions: 1 }))\n  |> count(column: \"repetitions\")\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> window(every: inf)\n  |> drop(columns: [\"table\", \"_start\", \"_stop\"])",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"0",
+							""
+						],
+						"label": "# room types",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "line",
+				"colors": [
+					{
+						"id": "b2a92557-32eb-479c-965d-d48fd5bde380",
+						"type": "scale",
+						"hex": "#74D495",
+						"name": "Atlantis",
+						"value": "0"
+					},
+					{
+						"id": "249372ee-8139-4e55-b800-f282af74cd81",
+						"type": "scale",
+						"hex": "#3F3FBA",
+						"name": "Atlantis",
+						"value": "0"
+					},
+					{
+						"id": "e8570f9b-6972-4c7a-9ebe-9b83a2ad8657",
+						"type": "scale",
+						"hex": "#FF4D9E",
+						"name": "Atlantis",
+						"value": "0"
+					}
+				],
+				"legend": {
+					"type": "static",
+					"orientation": "bottom"
+				},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/0f62075d-aad4-4ad6-a720-c4723e157484"
+				}
+			},
+			{
+				"i": "1bd2a69e-3419-4bea-a9c4-781792a76e50",
+				"x": 7,
+				"y": 6,
+				"w": 5,
+				"h": 3,
+				"name": "Top neighbourhood",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"neighbourhood\"))\n  |> duplicate(column: \"_value\", as: \"neighbourhood\")\n  |> group(columns: [\"neighbourhood\"])\n  |> count()\n  |> group()\n  |> sort(columns: [\"_value\"], desc: true)",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"neighbourhood\"))\n  |> duplicate(column: \"_value\", as: \"neighbourhood\")\n  |> group(columns: [\"neighbourhood\"])\n  |> count()\n  |> group()\n  |> sort(columns: [\"_value\"], desc: true)",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "table",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": false
+				},
+				"fieldOptions": [
+					{
+						"internalName": "neighbourhood",
+						"displayName": "Neighbourhood",
+						"visible": true
+					},
+					{
+						"internalName": "_value",
+						"displayName": "# Repetitions",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 0
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/1bd2a69e-3419-4bea-a9c4-781792a76e50"
+				}
+			},
+			{
+				"i": "5acfd423-9001-4833-94b1-8f38ac6130aa",
+				"x": 0,
+				"y": 7,
+				"w": 2,
+				"h": 1,
+				"name": "With elevator",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"elevator\"))\n  |> map(fn: (r) => ({ r with _value: int(v: r._value) }))\n  |> mean()\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 100.0 }))",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"elevator\"))\n  |> map(fn: (r) => ({ r with _value: int(v: r._value) }))\n  |> mean()\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 100.0 }))",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "%",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 1
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/5acfd423-9001-4833-94b1-8f38ac6130aa"
+				}
+			},
+			{
+				"i": "5620a3df-713c-4767-b14a-9df3edf4d0fb",
+				"x": 0,
+				"y": 8,
+				"w": 2,
+				"h": 1,
+				"name": "With internet",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"internet\"))\n  |> map(fn: (r) => ({ r with _value: int(v: r._value) }))\n  |> mean()\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 100.0 }))",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"internet\"))\n  |> map(fn: (r) => ({ r with _value: int(v: r._value) }))\n  |> mean()\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 100.0 }))",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "%",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 1
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/5620a3df-713c-4767-b14a-9df3edf4d0fb"
+				}
+			},
+			{
+				"i": "faef9069-91be-427b-a873-7cd43d6c3fe2",
+				"x": 0,
+				"y": 6,
+				"w": 2,
+				"h": 1,
+				"name": "With TV",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"tv\"))\n  |> map(fn: (r) => ({ r with _value: int(v: r._value) }))\n  |> mean()\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 100.0 }))",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"tv\"))\n  |> map(fn: (r) => ({ r with _value: int(v: r._value) }))\n  |> mean()\n  |> map(fn: (r) => ({ r with _value: float(v: r._value) * 100.0 }))",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "%",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 1
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/faef9069-91be-427b-a873-7cd43d6c3fe2"
+				}
+			},
+			{
+				"i": "d22d3078-a91a-4638-984c-33cf2b5c07e1",
+				"x": 7,
+				"y": 0,
+				"w": 5,
+				"h": 3,
+				"name": "Top combinations (beds, bathrooms)",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"accommodates\" or r._field == \"bathrooms\" or r._field == \"beds\"))\n  |> pivot(\n    rowKey:[\"_time\"],\n    columnKey: [\"_field\"],\n    valueColumn: \"_value\"\n  )\n  |> map(fn: (r) => ({ r with combination: \"Beds: \" + string(v: r.beds) + \" (\" + string(v: r.accommodates) + \" accommodates)\" + \" | Bathrooms: \" + string(v: r.bathrooms) }))\n  |> group(columns: [\"combination\"])\n  |> reduce(fn: (r, accumulator) => ({ count: 1 + accumulator.count }), identity: {count: 0})\n  |> group()\n  |> top(n:5, columns: [\"count\"])",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"accommodates\" or r._field == \"bathrooms\" or r._field == \"beds\"))\n  |> pivot(\n    rowKey:[\"_time\"],\n    columnKey: [\"_field\"],\n    valueColumn: \"_value\"\n  )\n  |> map(fn: (r) => ({ r with combination: \"Beds: \" + string(v: r.beds) + \" (\" + string(v: r.accommodates) + \" accommodates)\" + \" | Bathrooms: \" + string(v: r.bathrooms) }))\n  |> group(columns: [\"combination\"])\n  |> reduce(fn: (r, accumulator) => ({ count: 1 + accumulator.count }), identity: {count: 0})\n  |> group()\n  |> top(n:5, columns: [\"count\"])",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "table",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": false
+				},
+				"fieldOptions": [
+					{
+						"internalName": "combination",
+						"displayName": "",
+						"visible": true
+					},
+					{
+						"internalName": "count",
+						"displayName": "# Repetitions",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 0
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/d22d3078-a91a-4638-984c-33cf2b5c07e1"
+				}
+			},
+			{
+				"i": "9d24ce16-a12a-4bca-992a-b07e561a0dc7",
+				"x": 2,
+				"y": 0,
+				"w": 5,
+				"h": 3,
+				"name": "Requests / time",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"bathrooms\"))\n  |> window(every: autoInterval)\n  |> map(fn: (r) => ({ r with requests: 1 }))\n  |> count(column: \"requests\")\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> drop(columns: [\"_stop\", \"_start\", \"_measurement\", \"version\", \"_value\", \"_field\"])",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"bathrooms\"))\n  |> window(every: autoInterval)\n  |> map(fn: (r) => ({ r with requests: 1 }))\n  |> count(column: \"requests\")\n  |> duplicate(column: \"_stop\", as: \"_time\")\n  |> drop(columns: [\"_stop\", \"_start\", \"_measurement\", \"version\", \"_value\", \"_field\"])",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "bar",
+				"colors": [
+					{
+						"id": "f7c0c66c-82e3-4944-a1c9-7d2a60a73f59",
+						"type": "scale",
+						"hex": "#F6F6F8",
+						"name": "T-Max 400 Film",
+						"value": "0"
+					},
+					{
+						"id": "e01d3710-ca25-411b-ac8b-91258a34ec5a",
+						"type": "scale",
+						"hex": "#A4A8B6",
+						"name": "T-Max 400 Film",
+						"value": "0"
+					},
+					{
+						"id": "8d58f52c-049c-4e17-9ba2-04803dd918c3",
+						"type": "scale",
+						"hex": "#545667",
+						"name": "T-Max 400 Film",
+						"value": "0"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/9d24ce16-a12a-4bca-992a-b07e561a0dc7"
+				}
+			},
+			{
+				"i": "66ba33ef-d2ce-467c-ab5e-0388c0b6cc9a",
+				"x": 0,
+				"y": 0,
+				"w": 2,
+				"h": 3,
+				"name": "Total requests",
+				"queries": [
+					{
+						"query": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"bathrooms\"))\n  |> map(fn: (r) => ({ r with requests: 1 }))\n  |> count(column: \"requests\")",
+						"queryConfig": {
+							"database": "",
+							"measurement": "",
+							"retentionPolicy": "",
+							"fields": [],
+							"tags": {},
+							"groupBy": {
+								"time": "",
+								"tags": []
+							},
+							"areTagsAccepted": false,
+							"rawText": "from(bucket: \"kre/autogen\")\n  |> range(start: dashboardTime)\n  |> filter(fn: (r) => r._measurement == \"features\" and (r._field == \"bathrooms\"))\n  |> map(fn: (r) => ({ r with requests: 1 }))\n  |> count(column: \"requests\")",
+							"range": null,
+							"shifts": null
+						},
+						"source": "",
+						"type": "flux"
+					}
+				],
+				"axes": {
+					"x": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					},
+					"y2": {
+						"bounds": [
+							"",
+							""
+						],
+						"label": "",
+						"prefix": "",
+						"suffix": "",
+						"base": "10",
+						"scale": "linear"
+					}
+				},
+				"type": "single-stat",
+				"colors": [
+					{
+						"id": "base",
+						"type": "text",
+						"hex": "#00C9FF",
+						"name": "laser",
+						"value": "-1000000000000000000"
+					}
+				],
+				"legend": {},
+				"tableOptions": {
+					"verticalTimeAxis": true,
+					"sortBy": {
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					},
+					"wrapping": "truncate",
+					"fixFirstColumn": true
+				},
+				"fieldOptions": [
+					{
+						"internalName": "time",
+						"displayName": "",
+						"visible": true
+					}
+				],
+				"timeFormat": "MM/DD/YYYY HH:mm:ss",
+				"decimalPlaces": {
+					"isEnforced": true,
+					"digits": 2
+				},
+				"note": "",
+				"noteVisibility": "default",
+				"links": {
+					"self": "/chronograf/v1/dashboards/3/cells/66ba33ef-d2ce-467c-ab5e-0388c0b6cc9a"
+				}
+			}
+		],
+		"templates": [],
+		"name": "Overview",
+		"organization": "default",
+		"links": {
+			"self": "/chronograf/v1/dashboards/3",
+			"cells": "/chronograf/v1/dashboards/3/cells",
+			"templates": "/chronograf/v1/dashboards/3/templates"
+		}
+	}
+}

@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "public_input.proto";
+
+
+message EtlOutput {
+  message ModelInput {
+    int32 room_type = 1;
+    int32 bedrooms = 2;
+    float bathrooms = 3;
+    int32 accommodates = 4;
+    int32 beds = 5;
+    int32 neighbourhood = 6;
+    float latitude = 7;
+    float longitude = 8;
+    bool tv = 9;
+    bool elevator = 10;
+    bool internet = 11;
+  }
+
+  entrypoint.Request request = 1;
+  ModelInput model_input = 2;
+}
+
+
+message ModelOutput {
+  entrypoint.Request request = 1;
+  int32 price_category = 2;
+}
