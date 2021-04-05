@@ -1,3 +1,19 @@
+kind: secret
+name: minio-key-id
+get:
+  path: mlflow-server-secret
+  name: AWS_ACCESS_KEY_ID
+
+---
+
+kind: secret
+name: minio-secret
+get:
+  path: mlflow-server-secret
+  name: AWS_SECRET_ACCESS_KEY
+
+---
+
 kind: pipeline
 type: kubernetes
 name: preprocess-data
@@ -7,16 +23,52 @@ trigger:
   - refs/tags/preprocess-data-*
 
 environment:
-  AWS_ACCESS_KEY_ID: minio
-  AWS_SECRET_ACCESS_KEY: minio123
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
-
+     
 steps:
-
   - name: preprocess-airbnb-data
     image: terminus7/sci-toolkit-runner:1.1.0
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio-key-id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio-secret
     commands:
       - python3 "data/creation/01-creation-preprocess_data.py"
+    volumes:
+        - name: shared-storage
+          path: /shared-storage
+
+volumes:
+  - name: shared-storage
+    claim:
+      name: received-data-claim
+
+---
+
+kind: pipeline
+type: kubernetes
+name: model-training
+
+trigger:
+  ref:
+  - refs/tags/train-model-*
+
+environment:
+  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+  MLFLOW_URL: http://mlflow-server:5000
+  MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
+
+steps:
+  - name: train-simple-classifier
+    image: terminus7/sci-toolkit-runner:1.1.0
+    environment:
+      AWS_ACCESS_KEY_ID:
+        from_secret: minio-key-id
+      AWS_SECRET_ACCESS_KEY:
+        from_secret: minio-secret
+    commands:
+      - python3 "modeling/creation/01-creation-train_simple_classifier.py"
     volumes:
         - name: shared-storage
           path: /shared-storage
