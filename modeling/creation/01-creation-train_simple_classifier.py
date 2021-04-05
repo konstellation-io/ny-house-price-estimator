@@ -22,22 +22,25 @@ DIR_MODEL = Path(MINIO_DATA_FOLDER).parent / "models"
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = os.getenv("MLFLOW_URL")
-MLFLOW_EXPERIMENT = "airbnb-specify-s3-mlflow-artifacts"
+MLFLOW_EXPERIMENT = "ny-price-estimation-2"  # "airbnb-price-estimation"  #airbnb-specify-s3-mlflow-artifacts
 MLFLOW_RUN_NAME = "test-artifact-tracking"
 
 RF_PARAMS = dict(
-    n_estimators = [100, 200, 400], 
-    max_depth = [4, 6, 8, 12, 16],
+    n_estimators = [100], 
+    max_depth = [8],  #4, 6, 8, 12, 16
     max_features = [0.4, 0.6, 0.8],
     min_samples_split = [2, 4],
     class_weight=["balanced"], 
     random_state=[0]
 )
 
-INCLUDE_AMENITIES = True
+INCLUDE_AMENITIES = False
         
 
 def main():
+    """
+    The main function of the script for training a simple classifier.
+    """
     
     mlflow.set_tracking_uri(MLFLOW_URL)
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
