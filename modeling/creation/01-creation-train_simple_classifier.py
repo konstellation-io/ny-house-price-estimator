@@ -25,12 +25,12 @@ DIR_TEMP = Path("temp")  # Temporary location to save results before logging to 
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = os.getenv("MLFLOW_URL")
-MLFLOW_EXPERIMENT = "price-estimator"  # os.getenv("BUCKET_NAME")    # "airbnb-price-estimation"  #airbnb-specify-s3-mlflow-artifacts
-MLFLOW_RUN_NAME = "test-mlflow-exp-creation"
+MLFLOW_EXPERIMENT = "price-estimator"  
+MLFLOW_RUN_NAME = "train-simple-model"
 
 RF_PARAMS = dict(
-    n_estimators = [100], #, 200, 400], 
-    max_depth = [4], #, 6, 8, 12, 16],
+    n_estimators = [100, 200, 400], 
+    max_depth = [4, 6, 8, 12, 16],
     max_features = [0.4, 0.6, 0.8],
     min_samples_split = [2, 4],
     class_weight=["balanced"], 
@@ -38,9 +38,14 @@ RF_PARAMS = dict(
 )
 
 INCLUDE_AMENITIES = False
-        
 
-def plot_confusion_matrix(y_pred: np.ndarray, y_true: np.ndarray, filepath: str, classes: list = [0, 1, 2, 3], labels: list = ['low', 'mid', 'high', 'lux']) -> None:
+
+def plot_confusion_matrix(
+    y_pred: np.ndarray, 
+    y_true: np.ndarray, 
+    filepath: str, 
+    classes: list = [0, 1, 2, 3], 
+    labels: list = ['low', 'mid', 'high', 'lux']) -> None:
     """ 
     Given arrays for predictions (y_pred) and true values (y_true) of a binary variable, plots a confusion matrix for the classes 
     with their provided labels and saves it to the location specified in filepath.
@@ -61,14 +66,13 @@ def plot_confusion_matrix(y_pred: np.ndarray, y_true: np.ndarray, filepath: str,
 def main():
     """
     The main function of the script for training a simple classifier.
+    - Loads processed data
+    - Trains a simple Random Forest classifier
+    - Evaluates the model on the test set
+    - Logs the training hyperparameters, the trained model and metrics to MLflow 
     """    
     os.mkdir(DIR_TEMP)
     
-    # Temporary solution for an issue with mlflow artifacts buckets creation:
-    client = mlflow.tracking.MlflowClient(tracking_uri=MLFLOW_URL)
-    if not MLFLOW_EXPERIMENT in [exp.name for exp in client.list_experiments()]:
-        client.create_experiment(MLFLOW_EXPERIMENT, artifact_location="s3://ny-price-estimator/mlflow-artifacts")
-
     mlflow.set_tracking_uri(MLFLOW_URL)
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
 
@@ -101,7 +105,7 @@ def main():
                 # Save model
                 joblib.dump(clf, FILEPATH_MODEL)
 
-                # Evaluate
+                # Evaluate the model
                 y_pred = clf.predict(X_test)
                 y_proba = clf.predict_proba(X_test)
 
