@@ -22,8 +22,8 @@ DIR_MODEL = Path(MINIO_DATA_FOLDER).parent / "models"
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = os.getenv("MLFLOW_URL")
-MLFLOW_EXPERIMENT = "ny-price-estimation-2"  # "airbnb-price-estimation"  #airbnb-specify-s3-mlflow-artifacts
-MLFLOW_RUN_NAME = "test-artifact-tracking"
+MLFLOW_EXPERIMENT = os.getenv("BUCKET_NAME")    # "airbnb-price-estimation"  #airbnb-specify-s3-mlflow-artifacts
+MLFLOW_RUN_NAME = "test-mlflow-exp-creation"
 
 RF_PARAMS = dict(
     n_estimators = [100], 
