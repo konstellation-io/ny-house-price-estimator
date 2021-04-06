@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 
-DIR_REPO = Path(__file__).parent.parent
-sys.path.append(str(DIR_REPO))
+DIR_REPO = Path(__file__).parent.parent.parent
+sys.path.append(str(DIR_REPO / "experiments"))
 
 from src.data_processing import preprocess_target_variable
 
