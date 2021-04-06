@@ -18,12 +18,12 @@ kind: pipeline
 type: kubernetes
 name: preprocess-data
 
-trigger:
-  ref:
-  - refs/tags/preprocess-data-*
+# trigger:
+#   ref:
+#   - refs/tags/preprocess-data-*
 
 environment:
-  PYTHONPATH: /drone/src
+  PYTHONPATH: /drone/experiments/src
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
      
 steps:
@@ -36,7 +36,7 @@ steps:
         from_secret: minio-secret
     commands:
       - pytest tests/test_data_processing.py
-      - python3 "data/creation/01-creation-preprocess_data.py"
+      - python3 "experiments/data/creation/01-creation-preprocess_data.py"
     volumes:
         - name: shared-storage
           path: /shared-storage
@@ -51,12 +51,12 @@ kind: pipeline
 type: kubernetes
 name: model-training
 
-trigger:
-  ref:
-  - refs/tags/train-model-*
+# trigger:
+#   ref:
+#   - refs/tags/train-model-*
 
 environment:
-  PYTHONPATH: /drone/src
+  PYTHONPATH: /drone/experiments/src
   MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
@@ -70,7 +70,7 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
     commands:
-      - python3 "modeling/creation/01-creation-train_simple_classifier.py"
+      - python3 "experiments/modeling/creation/01-creation-train_simple_classifier.py"
     volumes:
         - name: shared-storage
           path: /shared-storage
