@@ -1,3 +1,4 @@
+from pathlib import Path
 import sys
 import unittest
 
@@ -5,7 +6,8 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 
-sys.path.append("/home/coder/repos/ny-price-estimator")
+DIR_REPO = Path(__file__).parent.parent
+sys.path.append(str(DIR_REPO))
 
 from src.data_processing import preprocess_target_variable
 
