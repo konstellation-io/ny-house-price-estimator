@@ -6,7 +6,9 @@ import numpy as np
 import pandas as pd
 from pandas import DataFrame
 
-sys.path.append("/home/coder/repos/ny-price-estimator")
+DIR_REPO = Path(__file__).parent.parent.parent.parent
+DIR_EXP = DIR_REPO / "experiments"
+sys.path.append(str(DIR_EXP))
 
 from src.data_processing import preprocess_target_variable, preprocess_amenities_column
 
