@@ -119,7 +119,6 @@ def main():
                 # Log to MLflow
                 mlflow.log_params(params)
                 mlflow.log_param("amenities", INCLUDE_AMENITIES)
-
                 mlflow.log_metrics(metrics)
                 mlflow.log_artifact(str(FILEPATH_MODEL))
                 mlflow.log_artifacts(str(DIR_TEMP))
