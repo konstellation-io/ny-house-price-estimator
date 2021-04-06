@@ -18,9 +18,9 @@ kind: pipeline
 type: kubernetes
 name: preprocess-data
 
-# trigger:
-#   ref:
-#   - refs/tags/preprocess-data-*
+trigger:
+  ref:
+  - refs/tags/preprocess-data-*
 
 environment:
   PYTHONPATH: /drone/experiments/src
@@ -51,9 +51,9 @@ kind: pipeline
 type: kubernetes
 name: model-training
 
-# trigger:
-#   ref:
-#   - refs/tags/train-model-*
+trigger:
+  ref:
+  - refs/tags/train-model-*
 
 environment:
   PYTHONPATH: /drone/experiments/src
