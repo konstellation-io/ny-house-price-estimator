@@ -4,8 +4,6 @@ from pathlib import Path
 
 from matplotlib import pyplot as plt
 import mlflow
-from mlflow.exceptions import MlflowException
-from mlflow.tracking import MlflowClient
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
@@ -119,7 +117,6 @@ def main():
                 # Log to MLflow
                 mlflow.log_params(params)
                 mlflow.log_param("amenities", INCLUDE_AMENITIES)
-
                 mlflow.log_metrics(metrics)
                 mlflow.log_artifact(str(FILEPATH_MODEL))
                 mlflow.log_artifacts(str(DIR_TEMP))
