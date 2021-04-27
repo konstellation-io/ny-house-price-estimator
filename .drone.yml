@@ -147,8 +147,9 @@ steps:
       - kli server add $KRE_ENV $KRE_API_URL $KRE_API_TOKEN
       - kli server ls
       - kli server default $KRE_ENV
+      - echo "--- Start building new KRT..."
       - kli kre version create $MINIO_KRT_FOLDER/price-estimator-$TAG.krt
-      - echo "waiting for version on created status"
+      - echo "--- Waiting for version on created status"
       - sleep 15
       - kli kre version config --set OUTPUT_PRICE_CURRENCY=USD price-estimator-$CUSTOM_TAG
       - kli kre version start price-estimator-$CUSTOM_TAG -m "start version from KDL"
