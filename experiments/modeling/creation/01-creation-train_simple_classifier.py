@@ -23,7 +23,7 @@ DIR_TEMP = Path("temp")  # Temporary location to save results before logging to 
 FILEPATH_MODEL = DIR_MODEL / "simple_classifier.joblib"
 
 MLFLOW_URL = os.getenv("MLFLOW_URL")
-MLFLOW_EXPERIMENT = "price-estimator"  
+MLFLOW_EXPERIMENT = "ny-price-estimator"  
 MLFLOW_RUN_NAME = "train-simple-model"
 
 RF_PARAMS = dict(
