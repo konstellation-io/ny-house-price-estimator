@@ -24,7 +24,7 @@ trigger:
 
 environment:
   PYTHONPATH: /drone/experiments/src
-  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+  MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estimator/data
      
 steps:
   - name: preprocess-airbnb-data
@@ -57,7 +57,7 @@ trigger:
 
 environment:
   PYTHONPATH: /drone/experiments/src
-  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+  MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estimator/data
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
 
