@@ -58,8 +58,8 @@ trigger:
 environment:
   PYTHONPATH: /drone/experiments/src
   MINIO_DATA_FOLDER: /shared-storage/test/data
-  MLFLOW_URL: http://mlflow-server:5000
-  MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
+  MLFLOW_URL: http://test-mlflow:5000
+  MLFLOW_S3_ENDPOINT_URL: http://kdl-local-minio:9000
 
 steps:
   - name: train-simple-classifier
