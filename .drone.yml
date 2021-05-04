@@ -91,8 +91,8 @@ trigger:
 
 environment:
   MINIO_KRT_FOLDER: /shared-storage/ny-price-estimator/krt
-  MLFLOW_URL: http://mlflow-server:5000
-  MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
+  MLFLOW_URL: http://test-mlflow:5000
+  MLFLOW_S3_ENDPOINT_URL: http://kdl-local-minio:9000
   KLI_VERSION: 1.0-alpha.4
   KLI_REPO: 'git@github.com:konstellation-io/kli.git'
   KRE_ENV: demo
