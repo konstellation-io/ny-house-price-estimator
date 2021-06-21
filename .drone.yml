@@ -56,7 +56,7 @@ trigger:
 environment:
   PYTHONPATH: /drone/src/lab
   MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
-  MLFLOW_URL: http://mlflow-server:5000
+  MLFLOW_URL: http://ny-house-price-estim-mlflow:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
 
 steps:
