@@ -12,7 +12,14 @@
 
 This is an example repository illustrating the use of KDL on a simple machine learning classification task. 
 
-In this project, the aim is to create an estimator for the price of a rental property in New York. We are using a publicly available dataset containing property attributes such as type of property (house, apartment, etc.), number of bedrooms and bathrooms, neighbourhood, and amenities (such as breakfast, TV, internet, WiFi, etc.). Our aim is to create a classification model that can use the aforementioned attributes to predict whether the rental price of the property falls within the low-, mid-, high- or luxury-priced category. The data are imbalanced, since there are much more low- and mid-priced properties than luxury-priced properties, requiring us to handle class balance in model training.
+In this project, the aim is to create an estimator for the price of a rental property in New York. 
+We are using a publicly available dataset containing property attributes 
+such as type of property (house, apartment, etc.), number of bedrooms and bathrooms, neighbourhood, 
+and amenities (such as breakfast, TV, internet, WiFi, etc.). 
+Our aim is to create a classification model that can use the aforementioned attributes 
+to predict whether the rental price of the property falls within the low-, mid-, high- or luxury-priced category. 
+The data are imbalanced, since there are much more low- and mid-priced properties than luxury-priced properties, 
+requiring us to handle class balance in model training.
 
 ## Project structure
 
@@ -59,14 +66,17 @@ trigger:
     - refs/tags/preprocess-data-*
 ```
 
-With this trigger in place, the pipeline will be executed on Drone agents whenever a tag matching the pattern specified in the trigger is pushed to the remote repository, for example:
+With this trigger in place, the pipeline will be executed on Drone agents 
+whenever a tag matching the pattern specified in the trigger is pushed to the remote repository, for example:
 
 ```bash
 git tag preprocess-data-v0
 git push origin preprocess-data-v0
 ```
 
-Note: When using an external repository (e.g. hosted on Github), a delay in synchronization between Gitea and the mirrored external repo may cause a delay in launching the pipeline on the Drone runners.
+Note: When using an external repository (e.g. hosted on Github), 
+a delay in synchronization between Gitea and the mirrored external repo 
+may cause a delay in launching the pipeline on the Drone runners.
 This delay can be overcome by manually forcing a synchronization of the repository in the Gitea UI Settings.
 
 ## Testing
