@@ -34,7 +34,7 @@ steps:
         from_secret: minio-secret
     commands:
       - pytest lab/tests/test_data_processing.py
-      - python3 "lab/data/creation/01-creation-preprocess_data.py"
+      - python3 "lab/processes/preprocess_data/main.py"
     volumes:
       - name: shared-storage
         path: /shared-storage
@@ -68,7 +68,7 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
     commands:
-      - python3 "lab/modeling/creation/01-creation-train_simple_classifier.py"
+      - python3 "lab/processes/train_model/main.py"
     volumes:
       - name: shared-storage
         path: /shared-storage
