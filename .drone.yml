@@ -42,7 +42,7 @@ steps:
 volumes:
   - name: shared-storage
     claim:
-      name: kdl-received-data-claim
+      name: received-data-claim
 
 ---
 kind: pipeline
@@ -76,7 +76,7 @@ steps:
 volumes:
   - name: shared-storage
     claim:
-      name: kdl-received-data-claim
+      name: received-data-claim
 
 ---
 kind: pipeline
