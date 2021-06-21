@@ -14,8 +14,8 @@ from src.data_processing import preprocess_target_variable, preprocess_amenities
 
 
 MINIO_DATA_FOLDER = os.getenv("MINIO_DATA_FOLDER")
-DIR_DATA_RAW = Path(MINIO_DATA_FOLDER) / "base"
-DIR_DATA_PROCESSED = Path(MINIO_DATA_FOLDER) / "created"
+DIR_DATA_RAW = Path(MINIO_DATA_FOLDER) / "raw"
+DIR_DATA_PROCESSED = Path(MINIO_DATA_FOLDER) / "processed"
 
 FILEPATH_INPUT = DIR_DATA_RAW / "listings.csv"
 FILEPATH_OUTPUT = DIR_DATA_PROCESSED / "listings_processed.csv"
