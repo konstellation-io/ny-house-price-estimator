@@ -33,7 +33,7 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
     commands:
-      - pytest lab/lib/data_processing_test.py
+      - pytest lab
       - python3 "lab/processes/preprocess_data/main.py"
     volumes:
       - name: shared-storage
