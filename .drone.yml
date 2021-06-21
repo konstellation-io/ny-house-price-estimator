@@ -5,7 +5,6 @@ get:
   name: AWS_ACCESS_KEY_ID
 
 ---
-
 kind: secret
 name: minio-secret
 get:
@@ -13,19 +12,18 @@ get:
   name: AWS_SECRET_ACCESS_KEY
 
 ---
-
 kind: pipeline
 type: kubernetes
 name: preprocess-data
 
 trigger:
   ref:
-  - refs/tags/preprocess-data-*
+    - refs/tags/preprocess-data-*
 
 environment:
   PYTHONPATH: /drone/experiments/src
-  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
-     
+  MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
+
 steps:
   - name: preprocess-airbnb-data
     image: terminus7/sci-toolkit-runner:1.1.0
@@ -38,13 +36,13 @@ steps:
       - pytest experiments/tests/test_data_processing.py
       - python3 "experiments/data/creation/01-creation-preprocess_data.py"
     volumes:
-        - name: shared-storage
-          path: /shared-storage
+      - name: shared-storage
+        path: /shared-storage
 
 volumes:
   - name: shared-storage
     claim:
-      name: received-data-claim
+      name: kdl-received-data-claim
 
 ---
 kind: pipeline
@@ -53,11 +51,11 @@ name: model-training
 
 trigger:
   ref:
-  - refs/tags/train-model-*
+    - refs/tags/train-model-*
 
 environment:
   PYTHONPATH: /drone/experiments/src
-  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+  MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
 
@@ -72,13 +70,13 @@ steps:
     commands:
       - python3 "experiments/modeling/creation/01-creation-train_simple_classifier.py"
     volumes:
-        - name: shared-storage
-          path: /shared-storage
+      - name: shared-storage
+        path: /shared-storage
 
 volumes:
   - name: shared-storage
     claim:
-      name: received-data-claim
+      name: kdl-received-data-claim
 
 ---
 kind: pipeline
@@ -87,24 +85,23 @@ name: build-runtime
 
 trigger:
   ref:
-  - refs/tags/krt-*
+    - refs/tags/krt-*
 
 environment:
   MINIO_KRT_FOLDER: /shared-storage/ny-price-estimator/krt
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
   KLI_VERSION: 1.0-alpha.4
-  KLI_REPO: 'git@github.com:konstellation-io/kli.git'
+  KLI_REPO: "git@github.com:konstellation-io/kli.git"
   KRE_ENV: demo
-
 
 steps:
   - name: test-etl
     image: python:3.9-slim
     commands:
       - cd runtime/src/etl
-      - pip install pipenv 
-      - pipenv install --dev --system 
+      - pip install pipenv
+      - pipenv install --dev --system
       - pipenv run pytest .
 
   - name: build-krt
@@ -115,8 +112,8 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
     commands:
-      - wget https://github.com/konstellation-io/kli/releases/download/v1.0-alpha.4/kli_1.0-alpha.4_linux_amd64.tar.gz 
-      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz 
+      - wget https://github.com/konstellation-io/kli/releases/download/v1.0-alpha.4/kli_1.0-alpha.4_linux_amd64.tar.gz
+      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz
       - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
       - TAG=$(echo $DRONE_TAG | sed 's/krt\-//g')
       - CUSTOM_TAG=$(echo $TAG | sed 's/\.//g')
@@ -140,7 +137,7 @@ steps:
       KRE_API_URL:
         from_secret: KRE_API_URL
     commands:
-      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz 
+      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz
       - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
       - TAG=$(echo $DRONE_TAG | sed 's/krt\-//g')
       - CUSTOM_TAG=$(echo $TAG | sed 's/\.//g')
@@ -170,7 +167,7 @@ steps:
       KRE_API_URL:
         from_secret: KRE_API_URL
     commands:
-      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz 
+      - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz
       - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
       - TAG=$(echo $DRONE_TAG | sed 's/krt\-//g')
       - CUSTOM_TAG=$(echo $TAG | sed 's/\.//g')
@@ -183,7 +180,7 @@ steps:
         path: /shared-storage
     when:
       event:
-      - promote
+        - promote
 
 volumes:
   - name: shared-storage
