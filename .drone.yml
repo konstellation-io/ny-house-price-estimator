@@ -22,6 +22,7 @@ trigger:
 
 environment:
   PYTHONPATH: /drone/src/lab
+  PATH_CONFIG: /drone/src/lab/processes/config.ini
   MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
 
 steps:
