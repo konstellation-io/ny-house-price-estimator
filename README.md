@@ -1,4 +1,12 @@
 # NY House Price Estimator
+## Table of Contents
+
+- [NY House Price Estimator](#ny-house-price-estimator)
+  - [Table of Contents](#table-of-contents)
+  - [Aim](#aim)
+  - [Project structure](#project-structure)
+  - [Launching experiment runs (Drone)](#launching-experiment-runs-drone)
+  - [Testing](#testing)
 
 ## Aim
 
