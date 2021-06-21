@@ -70,7 +70,8 @@ def main():
     - Evaluates the model on the test set
     - Logs the training hyperparameters, the trained model and metrics to MLflow
     """
-    os.mkdir(DIR_TEMP)
+    DIR_TEMP.mkdir(exist_ok=True)
+    DIR_MODEL.mkdir(exist_ok=True)
 
     mlflow.set_tracking_uri(MLFLOW_URL)
     mlflow.set_experiment(MLFLOW_EXPERIMENT)
