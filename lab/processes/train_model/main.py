@@ -1,17 +1,16 @@
-import joblib
 import os
 from pathlib import Path
 
-from matplotlib import pyplot as plt
+import joblib
 import mlflow
 import numpy as np
 import pandas as pd
-from pandas import DataFrame
 import seaborn as sns
+from matplotlib import pyplot as plt
+from pandas import DataFrame
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, roc_auc_score, confusion_matrix
-from sklearn.model_selection import train_test_split, ParameterGrid
-
+from sklearn.metrics import accuracy_score, confusion_matrix, roc_auc_score
+from sklearn.model_selection import ParameterGrid, train_test_split
 
 MINIO_DATA_FOLDER = os.getenv("MINIO_DATA_FOLDER")
 
@@ -124,4 +123,5 @@ def main():
 
 
 if __name__ == "__main__":
+
     main()

@@ -21,7 +21,7 @@ trigger:
     - refs/tags/preprocess-data-*
 
 environment:
-  PYTHONPATH: /drone/lab/lib
+  PYTHONPATH: /drone/lab
   MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
 
 steps:
@@ -33,7 +33,7 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
     commands:
-      - pytest lab/tests/test_data_processing.py
+      - pytest lab/lib/data_processing_test.py
       - python3 "lab/processes/preprocess_data/main.py"
     volumes:
       - name: shared-storage
@@ -54,7 +54,7 @@ trigger:
     - refs/tags/train-model-*
 
 environment:
-  PYTHONPATH: /drone/lab/lib
+  PYTHONPATH: /drone/lab
   MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
