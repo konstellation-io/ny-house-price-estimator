@@ -54,8 +54,8 @@ def classifiers_hyperparam_search(mlflow, config, mlflow_url, train_params, mlfl
 
         # Iterate through hyperparameter space:
         for params in ParameterGrid(train_params):
-            with mlflow.start_run(run_name="train-simple-model", tags=mlflow_tags, nested=True):
-
+            with mlflow.start_run(run_name="train-simple-model", nested=True):
+                mlflow.set_tags(mlflow_tags)
                 # Train model
                 clf = RandomForestClassifier(**params, n_jobs=4)
                 clf.fit(X_train, y_train)
