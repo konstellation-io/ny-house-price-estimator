@@ -33,7 +33,8 @@ def classifiers_hyperparam_search(mlflow, config, mlflow_url, train_params, mlfl
     mlflow.set_tracking_uri(mlflow_url)
     mlflow.set_experiment(mlflow_experiment)
 
-    with mlflow.start_run(run_name="hyperparam_search", tags=mlflow_tags):
+    with mlflow.start_run(run_name="hyperparam_search"):
+        mlflow.set_tags(mlflow_tags)
 
         # Read input data
         df = pd.read_csv(fpath_processed_data, index_col=0).dropna(axis=0)
