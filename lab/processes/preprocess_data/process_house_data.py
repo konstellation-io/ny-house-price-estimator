@@ -8,9 +8,9 @@ from processes.preprocess_data.mappings import MAP_NEIGHB, MAP_ROOM_TYPE
 
 def process_house_data(config):
 
+    # Unpack config
     dir_raw = Path(config["data"]["dir_raw"])
     dir_processed = Path(config["data"]["dir_processed"])
-
     fpath_raw_data = dir_raw / config["data"]["fname_raw"]
     fpath_processed_data = dir_processed / config["data"]["fname_processed"]
 
