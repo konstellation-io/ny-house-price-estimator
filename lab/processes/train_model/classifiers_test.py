@@ -33,7 +33,7 @@ def fixture_temporary_data(dir_temp="temp"):
     # Create temp directory
     Path(dir_temp).mkdir(exist_ok=True)
     # Create the dataset for testing
-    # IMPROVE: Only load a small subset for testing instead of the full dataset
+    # IMPROVE: Load a small subset for testing instead of full dataset
     test_config["data"]["dir_processed"] = dir_temp
     process_house_data(config=test_config)
 

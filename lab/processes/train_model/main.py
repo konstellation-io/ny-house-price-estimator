@@ -7,6 +7,7 @@ from processes.train_model.classifiers import classifiers_hyperparam_search
 
 PATH_CONFIG = os.getenv("PATH_CONFIG")
 MLFLOW_URL = os.getenv("MLFLOW_URL")
+MLFLOW_TAGS = {"git_tag": os.getenv("DRONE_TAG")}
 RF_PARAMS = dict(
     n_estimators=[100, 200, 400],
     max_depth=[4, 6, 8, 12, 16],
@@ -20,4 +21,6 @@ RF_PARAMS = dict(
 if __name__ == "__main__":
 
     config = load_config(PATH_CONFIG)
-    classifiers_hyperparam_search(mlflow=mlflow, config=config, mlflow_url=MLFLOW_URL, train_params=RF_PARAMS)
+    classifiers_hyperparam_search(
+        mlflow=mlflow, config=config, mlflow_url=MLFLOW_URL, train_params=RF_PARAMS, mlflow_tags=MLFLOW_TAGS
+    )

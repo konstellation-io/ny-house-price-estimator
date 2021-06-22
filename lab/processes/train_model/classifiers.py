@@ -10,7 +10,7 @@ from sklearn.model_selection import ParameterGrid, train_test_split
 from lib.viz import plot_confusion_matrix
 
 
-def classifiers_hyperparam_search(mlflow, config, mlflow_url, train_params):
+def classifiers_hyperparam_search(mlflow, config, mlflow_url, train_params, mlflow_tags={}):
     """
     The main function of the script for training simple classifiers.
     - Loads processed data
@@ -33,7 +33,7 @@ def classifiers_hyperparam_search(mlflow, config, mlflow_url, train_params):
     mlflow.set_tracking_uri(mlflow_url)
     mlflow.set_experiment(mlflow_experiment)
 
-    with mlflow.start_run(run_name="train-simple-model"):
+    with mlflow.start_run(run_name="hyperparam_search", tags=mlflow_tags):
 
         # Read input data
         df = pd.read_csv(fpath_processed_data, index_col=0).dropna(axis=0)
@@ -53,7 +53,7 @@ def classifiers_hyperparam_search(mlflow, config, mlflow_url, train_params):
 
         # Iterate through hyperparameter space:
         for params in ParameterGrid(train_params):
-            with mlflow.start_run(run_name="train-simple-model", nested=True):
+            with mlflow.start_run(run_name="train-simple-model", tags=mlflow_tags, nested=True):
 
                 # Train model
                 clf = RandomForestClassifier(**params, n_jobs=4)
