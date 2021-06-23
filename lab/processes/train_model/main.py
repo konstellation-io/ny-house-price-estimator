@@ -1,3 +1,7 @@
+"""
+Main code for the train_model node
+"""
+
 import os
 
 import mlflow
