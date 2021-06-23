@@ -1,16 +1,24 @@
-from pathlib import Path
-import sys
+"""
+Unit tests for lib/data_processing.py
+"""
+
 import unittest
 
 import numpy as np
 import pandas as pd
-from pandas import DataFrame
 
 from lib.data_processing import preprocess_target_variable
 
 
 class TestDataCreation(unittest.TestCase):
+    """
+    Unit tests for data processing
+    """
+
     def test_preprocess_target_variable(self):
+        """
+        Happy-path tests that the target variable (price category) is generated as expected
+        """
         prices_as_string = ["$100.00", "$82.00", "$420.00"]
         prices_as_int = [100, 82, 420]
         categories = [1, 0, 3]
