@@ -1,3 +1,8 @@
+"""
+The logic for the data preprocessing node
+"""
+
+from configparser import ConfigParser
 from pathlib import Path
 
 import pandas as pd
@@ -6,7 +11,15 @@ from lib.data_processing import preprocess_amenities_column, preprocess_target_v
 from processes.preprocess_data.mappings import MAP_NEIGHB, MAP_ROOM_TYPE
 
 
-def process_house_data(config):
+def process_house_data(config: ConfigParser) -> None:
+    """
+    Loads raw house price data as input (from path defined in config)
+    and saves processed house price data (to path defined in config)
+
+    Arguments:
+        config {ConfigParser} -- Required section:
+            "data": contains keys "dir_raw", "dir_processed", "fname_raw" and "fname_processed"
+    """
 
     # Unpack config
     dir_raw = Path(config["data"]["dir_raw"])
