@@ -36,11 +36,20 @@ The project repository has the following directory structure:
 │   │                (including unit tests)
 │   │
 │   └── processes           <- Source code for reproducible workflow steps.
+│       │
 │       ├── preprocess_data
-│       │   └── main.py
+│       │   ├── main.py                      <- Process main
+│       │   ├── mappings.py                  <- Variable mappings
+│       │   ├── process_house_data.py        <- Process logic
+│       │   └── process_house_data_test.py   <- Integration test for the process
+│       │
 │       ├── train_model
-│       │   └── main.py
-│       └── config.ini         <- Config for Drone runs
+│       │   ├── main.py                      <- Process main
+│       │   ├── classifiers.py               <- Process logic
+│       │   └── classifiers_test.py          <- Integration test for the process
+│       │
+│       ├── config.ini         <- Config for Drone runs
+│       └── config_test.ini    <- Config for integration tests
 |
 ├── runtimes      <- Code for generating deployment runtimes (.krt)
 │
