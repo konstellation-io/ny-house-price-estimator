@@ -18,13 +18,13 @@ def plot_confusion_matrix(
     labels: Union[list, tuple] = ("low", "mid", "high", "lux"),
 ) -> None:
     """
-    Given arrays for predictions (y_pred) and true values (y_true) of a binary variable, plots a confusion matrix for the classes
-    with their provided labels and saves it to the location specified in filepath.
+    Given arrays for predictions (y_pred) and true values (y_true) of a binary variable, plots a confusion matrix for
+    the classes with their provided labels and saves it to the location specified in filepath.
     """
     conf_matrix = confusion_matrix(y_true, y_pred)
     conf_matrix = conf_matrix / conf_matrix.sum(axis=1).reshape(len(classes), 1)
 
-    fig, ax = plt.subplots(figsize=(10, 10))
+    _ = plt.subplots(figsize=(10, 10))
     sns.heatmap(conf_matrix, annot=True, cmap="BuGn", square=True, fmt=".2f", annot_kws={"size": 10}, cbar=False)
     plt.xlabel("Predicted", fontsize=16)
     plt.ylabel("Real", fontsize=16)
