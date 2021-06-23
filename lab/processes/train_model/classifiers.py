@@ -1,4 +1,8 @@
-import os
+"""
+The logic for the model training node
+"""
+
+from configparser import ConfigParser
 from pathlib import Path
 
 import joblib
@@ -10,14 +14,23 @@ from sklearn.model_selection import ParameterGrid, train_test_split
 from lib.viz import plot_confusion_matrix
 
 
-def classifiers_hyperparam_search(mlflow, config, mlflow_url, train_params, mlflow_tags={}):
+def classifiers_hyperparam_search(mlflow, config: ConfigParser, mlflow_url: str, train_params: dict, mlflow_tags: dict):
     """
-    The main function of the script for training simple classifiers.
-    - Loads processed data
-    - Trains a collection of simple Random Forest classifiers iterating through
-    training hyperparameter combinations
-    - Evaluates the model on the validation set
-    - Logs the training hyperparameters, the trained model and metrics to MLflow
+    Trains a series of RandomForest iterating through all combinations of training parameters as defined in
+    train_params, logging the results to mlflow.
+
+    Arguments:
+        mlflow {module} -- the mlflow module (injected as dependency for mocking in integration tests)
+        config {ConfigParser} -- required sections:
+            "data": containing "dir_processed" and "fname_processed" (together defining the processed data path);
+            "artifacts": containing "artifacts_temp";
+            "outputs": containing filenames for the outputs ("fname_model" and "fname_conf_matrix");
+            "training": containing a boolean field "include_amenities";
+            "mlflow": containg "mlflow_experiment";
+        mlflow_url {str} -- the URL of the mlflow instance
+        train_params {dict} -- A dictionary specifying the grid search hyperparameter values
+            (all keys must be kwargs for for sklearn RandomForestClassifier)
+        mlflow_tags {dict} -- A dictionary containing tags for the mlflow run (e.g. "git_tag")
     """
     # Unpack config
     dir_processed = Path(config["data"]["dir_processed"])
