@@ -60,7 +60,9 @@ def test_classifiers_hyperparam_search(temp_data_dir):
     )
 
     # Call function under test
-    classifiers_hyperparam_search(mlflow=mlflow_mock, config=test_config, mlflow_url="", train_params=rf_params)
+    classifiers_hyperparam_search(
+        mlflow=mlflow_mock, config=test_config, mlflow_url="", train_params=rf_params, mlflow_tags={}
+    )
 
     # Assert
     artifacts_created = os.listdir(test_config["artifacts"]["artifacts_temp"])
