@@ -37,6 +37,7 @@ def fixture_temporary_directory(dir_temp="temp"):
     shutil.rmtree(dir_temp)
 
 
+@pytest.mark.integration
 def test_process_house_data(temp_dir):
     """
     Integration test for process_house_data
@@ -45,7 +46,6 @@ def test_process_house_data(temp_dir):
         temp_dir {str} -- temporary directory to hold test artifacts until test completion
             (use with fixture_temporary_directory)
     """
-
     test_config["data"]["dir_processed"] = temp_dir
 
     process_house_data(config=test_config)

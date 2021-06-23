@@ -6,10 +6,12 @@ import unittest
 
 import numpy as np
 import pandas as pd
+import pytest
 
 from lib.data_processing import preprocess_target_variable
 
 
+@pytest.mark.unittest
 class TestDataCreation(unittest.TestCase):
     """
     Unit tests for data processing

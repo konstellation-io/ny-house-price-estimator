@@ -44,6 +44,7 @@ def fixture_temporary_data(dir_temp="temp"):
     shutil.rmtree(dir_temp)
 
 
+@pytest.mark.integration
 def test_classifiers_hyperparam_search(temp_data_dir):
     """
     Happy-path integration test for the classifiers_hyperparams_search using a single combination of Random Forest
