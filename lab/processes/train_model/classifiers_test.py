@@ -45,7 +45,14 @@ def fixture_temporary_data(dir_temp="temp"):
 
 
 def test_classifiers_hyperparam_search(temp_data_dir):
+    """
+    Happy-path integration test for the classifiers_hyperparams_search using a single combination of Random Forest
+    hyperparameters for simplicity and speed
 
+    Arguments:
+        temp_data_dir {str} -- Path of temporary data directory required by the test,
+            provided by a test fixture that also creates and destroys said directory
+    """
     # Arrange
     test_config["data"]["dir_processed"] = temp_data_dir
     test_config["artifacts"]["artifacts_temp"] = str(Path(temp_data_dir) / test_config["artifacts"]["artifacts_temp"])
