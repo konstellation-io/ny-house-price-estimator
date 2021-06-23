@@ -13,6 +13,26 @@
                 "lab",
                 "-vv"
             ]
+        },
+        {
+            "name": "Unit tests",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-vv",
+                "-m unittest"
+            ]
+        },
+        {
+            "name": "Integration tests",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "args": [
+                "-vv",
+                "-m integration"
+            ]
         }
     ]
 }
