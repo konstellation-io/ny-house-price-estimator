@@ -14,10 +14,13 @@ from sklearn.model_selection import ParameterGrid, train_test_split
 from lib.viz import plot_confusion_matrix
 
 
-def classifiers_hyperparam_search(mlflow, config: ConfigParser, mlflow_url: str, train_params: dict, mlflow_tags: dict):
+def classifiers_hyperparam_search(
+    mlflow, config: ConfigParser, mlflow_url: str, train_params: dict, mlflow_tags: dict
+) -> None:
     """
-    Trains a series of RandomForest iterating through all combinations of training parameters as defined in
-    train_params, logging the results to mlflow.
+    Trains a series of RandomForest models iterating through all combinations of training parameters as defined in
+    train_params, logging the hyperparams and the resulting model and metrics and model to mlflow.
+    Uses processed data from location specified in config.
 
     Arguments:
         mlflow {module} -- the mlflow module (injected as dependency for mocking in integration tests)
