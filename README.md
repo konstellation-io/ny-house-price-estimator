@@ -62,11 +62,11 @@ The project repository has the following directory structure:
 
 ## Launching experiment runs (Drone)
 
-To enable full tracability and reproducibility, all executions that generate results or artifacts
+To enable full traceability and reproducibility, all executions that generate results or artifacts
 (e.g. processed datasets, trained models, validation metrics, plots of model validation, etc.)
 are run on Drone runners instead of the user's Jupyter or Vscode tools.
 
-Pipeline execuitions are launched by the trigger specified in `.drone.yml` for each pipeline.
+Pipeline executions are launched by the trigger specified in `.drone.yml` for each pipeline.
 An example is shown below:
 
 ```yaml
@@ -95,7 +95,7 @@ The repository contains some unit tests, e.g. in `lab/lib/data_processing_test.p
 To run the tests, you may use the terminal:
 
 ```bash
-~/repos/ny-house-price-estim$ pytest lab
+$ pytest lab
 ```
 
 ... or the various GUI options provided in VS Code for running tests.
