@@ -21,7 +21,8 @@ trigger:
     - refs/tags/preprocess-data-*
 
 environment:
-  PYTHONPATH: /drone/experiments/src
+  PYTHONPATH: /drone/src/lab
+  PATH_CONFIG: /drone/src/lab/processes/config.ini
   MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
 
 steps:
@@ -33,8 +34,8 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
     commands:
-      - pytest experiments/tests/test_data_processing.py
-      - python3 "experiments/data/creation/01-creation-preprocess_data.py"
+      - pytest lab
+      - python3 "lab/processes/preprocess_data/main.py"
     volumes:
       - name: shared-storage
         path: /shared-storage
@@ -54,10 +55,12 @@ trigger:
     - refs/tags/train-model-*
 
 environment:
-  PYTHONPATH: /drone/experiments/src
+  PYTHONPATH: /drone/src/lab
+  PATH_CONFIG: /drone/src/lab/processes/config.ini
   MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
-  MLFLOW_URL: http://mlflow-server:5000
+  MLFLOW_URL: http://ny-house-price-estim-mlflow:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
+  USER: ${DRONE_COMMIT_AUTHOR}
 
 steps:
   - name: train-simple-classifier
@@ -68,7 +71,7 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
     commands:
-      - python3 "experiments/modeling/creation/01-creation-train_simple_classifier.py"
+      - python3 "lab/processes/train_model/main.py"
     volumes:
       - name: shared-storage
         path: /shared-storage
