@@ -1,15 +1,29 @@
 kind: secret
 name: minio-key-id
 get:
-  path: mlflow-server-secret
+  path: ny-price-estimator-mlflow-secret
   name: AWS_ACCESS_KEY_ID
 
 ---
 kind: secret
 name: minio-secret
 get:
-  path: mlflow-server-secret
+  path: ny-price-estimator-mlflow-secret
   name: AWS_SECRET_ACCESS_KEY
+
+---
+kind: secret
+name: kre-api-token
+get:
+  path: kre-secrets
+  name: KRE_API_TOKEN
+
+---
+kind: secret
+name: kre-api-url
+get:
+  path: kre-secrets
+  name: KRE_API_URL
 
 ---
 kind: pipeline
@@ -23,7 +37,7 @@ trigger:
 environment:
   PYTHONPATH: /drone/src/lab
   PATH_CONFIG: /drone/src/lab/processes/config.ini
-  MINIO_DATA_FOLDER: /shared-storage/test-ny/data
+  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
 
 steps:
   - name: preprocess-airbnb-data
@@ -57,8 +71,8 @@ trigger:
 environment:
   PYTHONPATH: /drone/src/lab
   PATH_CONFIG: /drone/src/lab/processes/config.ini
-  MINIO_DATA_FOLDER: /shared-storage/test-ny/data
-  MLFLOW_URL: http://test-ny-mlflow:5000
+  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+  MLFLOW_URL: http://ny-price-estimator-mlflow:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
   USER: ${DRONE_COMMIT_AUTHOR}
 
@@ -136,9 +150,9 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
       KRE_API_TOKEN:
-        from_secret: KRE_API_TOKEN
+        from_secret: kre-api-token
       KRE_API_URL:
-        from_secret: KRE_API_URL
+        from_secret: kre-api-url
     commands:
       - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz
       - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
@@ -166,9 +180,9 @@ steps:
       AWS_SECRET_ACCESS_KEY:
         from_secret: minio-secret
       KRE_API_TOKEN:
-        from_secret: KRE_API_TOKEN
+        from_secret: kre-api-token
       KRE_API_URL:
-        from_secret: KRE_API_URL
+        from_secret: kre-api-url
     commands:
       - tar -zxvf kli_1.0-alpha.4_linux_amd64.tar.gz
       - mv kli_1.0-alpha.4_linux_amd64/bin/kli /usr/local/bin/
