@@ -41,7 +41,7 @@ def classifiers_hyperparam_search(
     dir_artifacts = Path(config["artifacts"]["artifacts_temp"])
     fpath_model = str(dir_artifacts / config["outputs"]["fname_model"])
     fpath_conf_matrix = str(dir_artifacts / config["outputs"]["fname_conf_matrix"])
-    include_amenities = bool(config["training"]["include_amenities"])
+    # include_amenities = bool(config["training"]["include_amenities"])
     mlflow_experiment = config["mlflow"]["mlflow_experiment"]
 
     # Set up
@@ -56,17 +56,34 @@ def classifiers_hyperparam_search(
         df = pd.read_csv(fpath_processed_data, index_col=0).dropna(axis=0)
 
         # Set up training and testing data
-        feature_names = ["neighbourhood", "room_type", "accommodates", "bathrooms", "bedrooms"]
-        amenities = ["TV", "Internet", "Air_conditioning", "Kitchen", "Heating", "Wifi", "Elevator", "Breakfast"]
+        # feature_names = ["neighbourhood", "room_type", "accommodates", "bathrooms", "bedrooms"]
+        # amenities = ["TV", "Internet", "Air_conditioning", "Kitchen", "Heating", "Wifi", "Elevator", "Breakfast"]
 
-        if include_amenities:
-            cols = feature_names + amenities
-        else:
-            cols = feature_names
+        # if include_amenities:
+        #    cols = feature_names + amenities
+        # else:
+        #    cols = feature_names
+
+        feature_names = [
+            "accommodates",
+            "room_type",
+            "beds",
+            "bedrooms",
+            "bathrooms",
+            "neighbourhood",
+            "tv",
+            "elevator",
+            "internet",
+            "latitude",
+            "longitude",
+        ]
+        cols = feature_names
 
         X = df[cols]
         y = df["category"]
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.15, random_state=1)
+        X_train, X_test, y_train, y_test = train_test_split(
+            X, y, test_size=0.15, random_state=1
+        )
 
         # Iterate through hyperparameter space:
         for params in ParameterGrid(train_params):
@@ -87,11 +104,13 @@ def classifiers_hyperparam_search(
                 metrics["accuracy"] = accuracy_score(y_test, y_pred)
                 metrics["roc_auc"] = roc_auc_score(y_test, y_proba, multi_class="ovr")
 
-                plot_confusion_matrix(y_pred=y_pred, y_true=y_test, filepath=fpath_conf_matrix)
+                plot_confusion_matrix(
+                    y_pred=y_pred, y_true=y_test, filepath=fpath_conf_matrix
+                )
 
                 # Log to MLflow
                 mlflow.log_params(params)
-                mlflow.log_param("amenities", include_amenities)
+                # mlflow.log_param("amenities", include_amenities)
                 mlflow.log_metrics(metrics)
                 mlflow.log_artifact(str(fpath_model))
                 mlflow.log_artifacts(str(dir_artifacts))

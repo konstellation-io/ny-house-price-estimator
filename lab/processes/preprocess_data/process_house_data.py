@@ -34,7 +34,7 @@ def process_house_data(config: ConfigParser) -> None:
     columns = [
         "id",
         "neighbourhood_group_cleansed",
-        "property_type",
+        # "property_type",
         "room_type",
         "latitude",
         "longitude",
@@ -53,6 +53,8 @@ def process_house_data(config: ConfigParser) -> None:
 
     # Create amenities features
     df = preprocess_amenities_column(df)
+    # Select & rename amenities features
+    df = df.rename(columns={"TV": "tv", "Internet": "internet", "Elevator": "elevator"})
 
     # Map categorical features
     df["neighbourhood"] = df["neighbourhood"].map(MAP_NEIGHB)
