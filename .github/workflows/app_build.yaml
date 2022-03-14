@@ -93,7 +93,7 @@ jobs:
         with:
           push: true
           context: ./app/back/
-          file: ./app/front/Dockerfile
+          file: ./app/back/Dockerfile
           platforms: linux/amd64
           tags: |
             konstellation/demo-back:${{ steps.get_version.outputs.VERSION }}
