@@ -1,0 +1,17 @@
+.card-modal {
+  padding: 10px;
+  min-width: 250px;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+
+  .MuiTypography-root {
+    display: grid;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  img {
+    width: 100px;
+  }
+}

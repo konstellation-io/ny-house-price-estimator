@@ -1,0 +1,31 @@
+$input-gap-width: 10px;
+
+#detail {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 1fr 2fr;
+  grid-template-columns: minmax(600px, 800px);
+  justify-content: center;
+
+  #logo-group {
+    display: grid;
+    grid-template-rows: 175px 50px auto;
+    justify-items: center;
+    align-items: center;
+    img {
+      height: 175px;
+    }
+    #buttons-group {
+      display: grid;
+      grid-template-columns: auto auto auto;
+      align-items: center;
+      justify-items: center;
+      column-gap: 20px;
+    }
+  }
+  #detail-wrapper {
+    display: grid;
+    grid-template-rows: 100px auto 50px;
+    grid-row-gap: $input-gap-width;
+  }
+}

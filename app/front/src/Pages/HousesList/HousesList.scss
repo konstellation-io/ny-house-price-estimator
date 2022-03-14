@@ -1,0 +1,43 @@
+#houses-list-screen {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  grid-template-rows: 1fr 2fr;
+  padding-bottom: 30px;
+  overflow: auto;
+
+  #logo-group {
+    display: grid;
+    grid-template-rows: 175px 50px auto;
+    justify-items: center;
+    align-items: center;
+    img {
+      height: 175px;
+    }
+    #buttons-group {
+      display: grid;
+      width: 100%;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      justify-items: center;
+      column-gap: 20px;
+    }
+  }
+
+  #houses-list {
+    display: grid;
+    grid-template-columns: max(500px);
+    grid-template-rows: repeat(auto-fit, 100px);
+    grid-row-gap: 10px;
+    overflow: auto;
+    justify-content: center;
+  }
+}
+.modal {
+  display: grid;
+  height: 100%;
+  justify-items: center;
+  align-items: center;
+}

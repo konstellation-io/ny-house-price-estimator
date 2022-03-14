@@ -1,0 +1,50 @@
+$input-width: 200px;
+$input-gap-width: 10px;
+
+.MuiFilledInput-root {
+  background-color: rgba(253, 219, 58, 0.9) !important;
+}
+.data-form {
+  display: grid;
+  height: 100%;
+  grid-template-rows: 1fr 2fr;
+  grid-template-columns: minmax(600px, 800px);
+  justify-content: center;
+  #logo-group {
+    display: grid;
+    grid-template-rows: 175px 50px auto;
+    justify-items: center;
+    align-items: center;
+    img {
+      height: 175px;
+    }
+
+    #buttons-group {
+      display: grid;
+      grid-template-columns: auto auto;
+      align-items: center;
+      justify-items: center;
+      grid-column-gap: 20px;
+      column-gap: 20px;
+    }
+  }
+  form {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    grid-row-gap: $input-gap-width;
+    margin-bottom: 50px;
+    .input-fields {
+      display: grid;
+      justify-content: center;
+      grid-template-columns: repeat(8, 1fr);
+      grid-row-gap: $input-gap-width;
+      grid-column-gap: $input-gap-width;
+    }
+    .type-select {
+      grid-column: span 2;
+    }
+    .name-input {
+      grid-column: 1 / 9;
+    }
+  }
+}

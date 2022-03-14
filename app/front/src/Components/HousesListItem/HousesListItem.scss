@@ -1,0 +1,67 @@
+#houses-list-item {
+  display: grid;
+  height: 100px;
+  padding-bottom: 5px;
+  grid-template-columns: auto repeat(3, auto) auto;
+  justify-items: center;
+  align-items: center;
+  border: 2px solid;
+
+  .icon-group {
+    display: grid;
+    grid-template-columns: 30px auto;
+    align-items: center;
+  }
+
+  .date-icon-group {
+    grid-row: 2;
+  }
+
+  .tv-icon-group {
+    grid-row: 2;
+  }
+
+  .elevator-icon-group {
+    grid-row: 2;
+  }
+
+  .internet-icon-group {
+    grid-row: 2;
+  }
+
+  .MuiChip-root {
+    border: 1px solid;
+    background-color: white;
+    color: #52575d;
+
+    .MuiChip-icon {
+      width: 30px;
+      .MuiChip-label {
+        overflow: unset;
+      }
+    }
+  }
+
+  .predicted-category-group {
+    grid-column: -1;
+    grid-row: 1;
+  }
+
+  .real-category-group {
+    grid-column: -1;
+    grid-row: 2;
+  }
+
+  .rented-btn {
+    grid-column: -1;
+    grid-row: 2;
+  }
+
+  .title-group {
+    display: grid;
+    justify-items: center;
+    getCategoryValues .title {
+      font-weight: bold;
+    }
+  }
+}
