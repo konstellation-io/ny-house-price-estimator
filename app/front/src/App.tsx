@@ -1,21 +1,15 @@
 import React from "react";
 import "./App.scss";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-
-// Material UI Theme
 import { ThemeProvider } from "@material-ui/core/styles";
 import Theme from "./Theme";
 import CssBaseline from "@material-ui/core/CssBaseline";
-
-// Routes
 import {
   ROUTE_DATA,
   ROUTE_DETAIL,
   ROUTE_HOME,
   ROUTE_LIST,
 } from "./Constants/routes";
-
-// Components
 import Home from "./Pages/Home/Home";
 import DataForm from "./Pages/DataForm/DataForm";
 import HousesList from "./Pages/HousesList/HousesList";
