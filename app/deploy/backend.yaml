@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-back
+  labels:
+    app: demo
+    component: back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+      component: back
+  template:
+    metadata:
+      labels:
+        app: demo
+        component: back
+    spec:
+      containers:
+        - name: demo-back
+          image: konstellation/demo-back:latest
+          imagePullPolicy: Always
+          env:
+            - name: RUNTIME_NAME
+              value: kre
+            - name: DOMAIN_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: krt-demo-configmap
+                  key: DOMAIN_NAME
+            - name: PORT
+              value: '5000'
+          ports:
+            - containerPort: 5000
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: back
+  labels:
+    app: demo
+    component: back
+spec:
+  clusterIP: None
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    app: demo
+    component: back

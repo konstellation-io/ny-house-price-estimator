@@ -34,7 +34,7 @@ jobs:
 
       - name: Get Version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/demo-v}
 
       - name: Build Docker image
         uses: docker/build-push-action@v2
@@ -86,7 +86,7 @@ jobs:
 
       - name: Get Version
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/demo-v}
 
       - name: Build Docker image
         uses: docker/build-push-action@v2

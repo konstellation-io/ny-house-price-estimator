@@ -1,0 +1,44 @@
+name: Deploy Demo GCP
+
+on: workflow_dispatch
+
+jobs:
+  deploy-demo:
+    needs: docker-build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Get Version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+
+      - uses: chrisdickinson/setup-yq@latest
+
+      - name: Setup environment
+        run: |
+          apt-get update && apt-get install -y gettext
+          export DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
+          ./scripts/replace_env_path.sh
+          echo "$GCP_SERVICE_ACCOUNT" | base64 -d > service-account.json
+          yq w -i ./demo/deploy/frontend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-front:${{ steps.get_version.outputs.VERSION }}"
+          yq w -i ./demo/deploy/backend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-back:${{ steps.get_version.outputs.VERSION }}"
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v0
+        with:
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
+
+      - id: Get Google Cloud Credentials
+        uses: 'google-github-actions/get-gke-credentials@v0'
+        with:
+          cluster_name: konstellation-demo
+          location: ${{ secrets.GCP_ZONE }}
+
+      - uses: azure/setup-kubectl@v2.0
+
+      - name: Google Cloud Deploy
+        run: |
+          kubectl create ns demo --dry-run -o yaml | kubectl apply -f -
+          kubectl -n demo apply -f ./app/deploy/
