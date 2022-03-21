@@ -10,7 +10,7 @@
   },
   "release": {
     "branches": [
-      "master"
+      "main"
     ],
     "extends": "semantic-release-monorepo",
     "plugins": [
