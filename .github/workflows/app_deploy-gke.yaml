@@ -22,7 +22,7 @@ jobs:
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-      - id: Get Google Cloud Credentials
+      - id: Get GKE Cluster Kubeconfig
         uses: 'google-github-actions/get-gke-credentials@v0'
         with:
           cluster_name: konstellation-demo
