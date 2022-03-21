@@ -1,0 +1,9 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: demo-cert
+spec:
+  commonName: demo.kre-demo.konstellation.io
+  secretName: demo-cert-tls
+  issuerRef:
+    name: demo-issuer

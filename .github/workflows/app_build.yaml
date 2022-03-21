@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -32,10 +32,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get Version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
@@ -44,7 +40,7 @@ jobs:
           file: ./app/front/Dockerfile
           platforms: linux/amd64
           tags: |
-            konstellation/demo-front:${{ steps.get_version.outputs.VERSION }}
+            konstellation/demo-front:${GITHUB_REF#refs/tags/demo-v}
             konstellation/demo-front:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
@@ -84,10 +80,6 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get Version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
@@ -96,7 +88,7 @@ jobs:
           file: ./app/back/Dockerfile
           platforms: linux/amd64
           tags: |
-            konstellation/demo-back:${{ steps.get_version.outputs.VERSION }}
+            konstellation/demo-back:${GITHUB_REF#refs/tags/demo-v}
             konstellation/demo-back:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
