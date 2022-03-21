@@ -26,5 +26,5 @@ jobs:
       - name: Release
         id: semantic_release
         env:
-          GITHUB_TOKEN: ${{secrets.PAT}}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: npx semantic-release --debug

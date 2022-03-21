@@ -1,6 +1,7 @@
 
 FROM node:14.15.4-alpine3.10 as front-builder
 
+LABEL maintainer="Intelygenz - Konstellation Team"
 ARG VERSION
 WORKDIR /app
 

@@ -13,6 +13,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Get Version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/demo-v}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -39,8 +43,8 @@ jobs:
           context: ./app/front/
           file: ./app/front/Dockerfile
           platforms: linux/amd64
-          tags: |
-            konstellation/demo-front:${GITHUB_REF#refs/tags/demo-v}
+          tags: | 
+            konstellation/demo-front:${{ steps.get_version.outputs.VERSION }}
             konstellation/demo-front:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max
@@ -60,6 +64,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Get Version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/demo-v}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -88,7 +96,7 @@ jobs:
           file: ./app/back/Dockerfile
           platforms: linux/amd64
           tags: |
-            konstellation/demo-back:${GITHUB_REF#refs/tags/demo-v}
+            konstellation/demo-back:${{ steps.get_version.outputs.VERSION }}
             konstellation/demo-back:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new,mode=max

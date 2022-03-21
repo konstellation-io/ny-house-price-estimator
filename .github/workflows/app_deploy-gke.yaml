@@ -4,25 +4,28 @@ on: workflow_dispatch
 
 jobs:
   deploy-demo:
-    needs: docker-build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Get Version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/demo-v}
+
       - uses: chrisdickinson/setup-yq@latest
 
       - name: Setup environment
         run: |
-          yq w -i ./demo/deploy/frontend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-front:${GITHUB_REF#refs/tags/demo-v}"
-          yq w -i ./demo/deploy/backend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-back:${GITHUB_REF#refs/tags/demo-v}"
+          yq w -i ./app/deploy/frontend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-front:${{ steps.get_version.outputs.VERSION }}"
+          yq w -i ./app/deploy/backend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-back:${{ steps.get_version.outputs.VERSION }}"
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v0
         with:
           credentials_json: ${{ secrets.GOOGLE_CREDENTIALS }}
 
-      - id: Get GKE Cluster Kubeconfig
+      - name: Get GKE Cluster Kubeconfig
         uses: 'google-github-actions/get-gke-credentials@v0'
         with:
           cluster_name: konstellation-demo
