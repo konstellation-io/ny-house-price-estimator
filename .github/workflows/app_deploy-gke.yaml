@@ -14,10 +14,6 @@ jobs:
 
       - name: Setup environment
         run: |
-          apt-get update && apt-get install -y gettext
-          export DOMAIN_NAME=${{ secrets.DOMAIN_NAME }}
-          ./scripts/replace_env_path.sh
-          echo "$GCP_SERVICE_ACCOUNT" | base64 -d > service-account.json
           yq w -i ./demo/deploy/frontend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-front:${GITHUB_REF#refs/tags/demo-v}"
           yq w -i ./demo/deploy/backend.yaml "spec.template.spec.containers.[0].image" "konstellation/demo-back:${GITHUB_REF#refs/tags/demo-v}"
 
