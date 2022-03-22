@@ -7,8 +7,6 @@ import HousesListItem from "../../Components/HousesListItem/HousesListItem";
 import { API_BASE_URL } from "../../index";
 import { ErrorModal } from "../../Components/Modal/Error/ErrorModal";
 import { toCategory } from "../../Helpers/Categories";
-
-// Constants
 import { CALL_LIST } from "../../Constants/localStorage";
 import { API_SAVE_METRICS } from "../../Constants/api";
 import { PriceModal } from "../../Components/Modal/Price/PriceModal";
