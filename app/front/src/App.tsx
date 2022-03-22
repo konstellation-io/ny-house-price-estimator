@@ -16,7 +16,6 @@ import HousesList from "./Pages/HousesList/HousesList";
 import { HouseDetail } from "./Pages/HouseDetail/HouseDetail";
 
 function App() {
-
   return (
     <ThemeProvider theme={Theme}>
       <CssBaseline />
