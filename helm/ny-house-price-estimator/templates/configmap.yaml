@@ -7,6 +7,6 @@ data:
   DOMAIN_NAME: kre-{{ .Values.environment }}.konstellation.io
   config.json: |
     {
-      "API_BASE_URL": "https://demo.kre-{{ .Values.environment }}.konstellation.io
+      "API_BASE_URL": "https://demo.kre-{{ .Values.environment }}.konstellation.io"
     }
 
