@@ -1,0 +1,10 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: demo-cert
+spec:
+  commonName: demo.kre-{{ .Values.environment }}.konstellation.io
+  secretName: demo-tls-cert
+  issuerRef:
+    name: letsencrypt
+    kind: ClusterIssuer

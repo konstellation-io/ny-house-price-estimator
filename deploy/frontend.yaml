@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-front
+  labels:
+    app: demo
+    component: front
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo
+      component: front
+  template:
+    metadata:
+      labels:
+        app: demo
+        component: front
+    spec:
+      containers:
+        - name: demo-front
+          image: konstellation/demo-front:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: config-volume
+              mountPath: /usr/share/nginx/html/config/config.json
+              subPath: config.json
+      volumes:
+        - name: config-volume
+          configMap:
+            name: krt-demo-configmap
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+  labels:
+    app: demo-front
+spec:
+  clusterIP: None
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: demo
+    component: front
