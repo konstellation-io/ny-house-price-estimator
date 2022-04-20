@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: back
+  labels:
+    app: demo
+    component: back
+spec:
+  clusterIP: None
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 5000
+  selector:
+    app: demo
+    component: back
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: front
+  labels:
+    app: demo-front
+spec:
+  clusterIP: None
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: demo
+    component: front

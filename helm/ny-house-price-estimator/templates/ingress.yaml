@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: demo-ingress
+  {{- with .Values.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  labels:
+    app: demo
+spec:
+  tls:
+    - hosts:
+        - "demo.kre-{{ .Values.environment }}.konstellation.io"
+      secretName: demo-tls-cert
+  rules:
+    - host: demo.kre-{{ .Values.environment }}.konstellation.io
+      http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: back
+              servicePort: 80
+          - path: /
+            backend:
+              serviceName: front
+              servicePort: 80
