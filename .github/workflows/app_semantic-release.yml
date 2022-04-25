@@ -32,7 +32,8 @@ jobs:
             semantic-release-monorepo
           working_directory: ./app
           extra_plugins: |
-            @semantic-release/git@10.0.1
-            @semantic-release/changelog@6.0.1
+            @semantic-release/github@8.0.4
+            @semantic-release/commit-analyzer@9.0.2
+            @semantic-release/release-notes-generator@10.0.3
         env:
-          GITHUB_TOKEN: ${{ secrets.PATNAME }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
