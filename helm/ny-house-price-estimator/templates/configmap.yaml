@@ -9,4 +9,3 @@ data:
     {
       "API_BASE_URL": "https://demo.kre-{{ .Values.environment }}.konstellation.io"
     }
-
