@@ -1,22 +1,25 @@
 {
   "name": "demo",
   "version": "0.0.1",
-  "devDependencies": {
-    "@semantic-release/github": "8.0.2",
-    "@semantic-release/gitlab": "*",
-    "@semantic-release/release-notes-generator": "*",
-    "semantic-release": "*",
-    "semantic-release-monorepo": "*"
-  },
   "release": {
-    "branches": [
-      "main"
-    ],
     "extends": "semantic-release-monorepo",
+    "branches": "main",
     "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/github"
+      [
+        "@semantic-release/commit-analyzer",
+        {
+          "preset": "angular"
+        }
+      ],
+      [
+        "@semantic-release/release-notes-generator",
+        {
+          "preset": "angular"
+        }
+      ],
+      [
+        "@semantic-release/github"
+      ]
     ]
   }
 }
