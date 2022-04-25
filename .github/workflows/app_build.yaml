@@ -43,7 +43,7 @@ jobs:
           context: ./app/front/
           file: ./app/front/Dockerfile
           platforms: linux/amd64
-          tags: | 
+          tags: |
             konstellation/demo-front:${{ steps.get_version.outputs.VERSION }}
             konstellation/demo-front:latest
           cache-from: type=local,src=/tmp/.buildx-cache

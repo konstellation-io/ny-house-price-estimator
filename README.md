@@ -7,18 +7,19 @@
   - [Project structure](#project-structure)
   - [Launching experiment runs (Drone)](#launching-experiment-runs-drone)
   - [Testing](#testing)
+  - [Kubernetes deployment](#kubernetes-deployment)
 
 ## Aim
 
-This is an example repository illustrating the use of KDL on a simple machine learning classification task. 
+This is an example repository illustrating the use of KDL on a simple machine learning classification task.
 
-In this project, the aim is to create an estimator for the price of a rental property in New York. 
-We are using a publicly available dataset containing property attributes 
-such as type of property (house, apartment, etc.), number of bedrooms and bathrooms, neighbourhood, 
-and amenities (such as breakfast, TV, internet, WiFi, etc.). 
-Our aim is to create a classification model that can use the aforementioned attributes 
-to predict whether the rental price of the property falls within the low-, mid-, high- or luxury-priced category. 
-The data are imbalanced, since there are much more low- and mid-priced properties than luxury-priced properties, 
+In this project, the aim is to create an estimator for the price of a rental property in New York.
+We are using a publicly available dataset containing property attributes
+such as type of property (house, apartment, etc.), number of bedrooms and bathrooms, neighbourhood,
+and amenities (such as breakfast, TV, internet, WiFi, etc.).
+Our aim is to create a classification model that can use the aforementioned attributes
+to predict whether the rental price of the property falls within the low-, mid-, high- or luxury-priced category.
+The data are imbalanced, since there are much more low- and mid-priced properties than luxury-priced properties,
 requiring us to handle class balance in model training.
 
 ## Project structure
@@ -55,7 +56,7 @@ The project repository has the following directory structure:
 │
 ├── .drone.yml    <- Instructions for Drone runners
 ├── .env          <- Local environment variables for VScode IDE
-├── .gitignore    
+├── .gitignore
 └── README.md     <- Main README
 ```
 
@@ -75,7 +76,7 @@ trigger:
     - refs/tags/preprocess-data-*
 ```
 
-With this trigger in place, the pipeline will be executed on Drone agents 
+With this trigger in place, the pipeline will be executed on Drone agents
 whenever a tag matching the pattern specified in the trigger is pushed to the remote repository, for example:
 
 ```bash
@@ -83,8 +84,8 @@ git tag preprocess-data-v0
 git push origin preprocess-data-v0
 ```
 
-Note: When using an external repository (e.g. hosted on Github), 
-a delay in synchronization between Gitea and the mirrored external repo 
+Note: When using an external repository (e.g. hosted on Github),
+a delay in synchronization between Gitea and the mirrored external repo
 may cause a delay in launching the pipeline on the Drone runners.
 This delay can be overcome by manually forcing a synchronization of the repository in the Gitea UI Settings.
 
@@ -99,3 +100,37 @@ $ pytest lab
 ```
 
 ... or the various GUI options provided in VS Code for running tests.
+
+## Kubernetes deployment
+
+The project is deployed to Kubernetes using ArgoCD in the following environments:
+
+- [INT](https://argocd.kre-int.konstellation.io)
+- [DEMO](https://argocd.kre-demo.konstellation.io)
+
+And can be reached at the following addresses:
+
+- [INT](https://demo.kre-int.konstellation.io)
+- [DEMO](https://demo.kre-demo.konstellation.io)
+
+The ArgoCD Application object can be found in the [konstellation infrastructure repository](https://github.com/konstellation-io/konstellation-infrastructure/tree/main/helm) in a gotemplate file that will be rendered using Helmfile.
+
+Please refer to the above repository for further info on how the application is being deployed.
+
+## Code quality
+
+In order to maintain team discipline in terms of code formatting and avoid security risks before committing, this repository uses [pre-commit]().
+
+To ensure that your commit complies with Konstellation standards, you can install pre-commit using the following command.
+
+```bash
+pip install -U pre-commit
+```
+
+Once installed, your commit will go through the quality gates defined in the pre-commit-config.yaml file in the repository root before Git stores your commit.
+
+If you want to check if pre-commit would fail without making a commit, execute the following command.
+
+```bash
+pre-commit run -a
+```
