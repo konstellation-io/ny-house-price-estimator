@@ -16,6 +16,7 @@ var config struct {
 	Port       string
 	Domain     string
 	Entrypoint string
+	Runtime    string
 }
 
 func main() {
@@ -24,7 +25,8 @@ func main() {
 		log.Fatalln("DOMAIN_NAME env var not defined")
 	}
 
-	config.Entrypoint = fmt.Sprintf("entrypoint.%s:443", config.Domain)
+	config.Runtime = os.Getenv("RUNTIME_ID")
+	config.Entrypoint = getEntrypoint(config.Runtime, config.Domain)
 
 	fmt.Println("*************----------ENTRYPOINT: ", config.Entrypoint)
 	port := os.Getenv("PORT")
@@ -53,4 +55,11 @@ func setupResponse(w *http.ResponseWriter, _ *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
+func getEntrypoint(runtime, domain string) string {
+	if runtime != "" {
+		return fmt.Sprintf("%s-entrypoint.%s:443", runtime, domain)
+	}
+	return fmt.Sprintf("entrypoint.%s:443", domain)
 }
