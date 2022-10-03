@@ -7,8 +7,8 @@
     "plugins": [
       [
         "semantic-release-helm", {
-            chartPath: './helm/ny-house-price-estimator',
-            onlyUpdateVersion: false
+            "chartPath": "./helm/ny-house-price-estimator",
+            "onlyUpdateVersion": "false"
         }
       ],
       [
