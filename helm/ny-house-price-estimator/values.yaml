@@ -1,3 +1,3 @@
-environment: "demo.subdomain.domain.com"
+domain: "demo.subdomain.domain.com"
 ingress:
   annotations: {}
