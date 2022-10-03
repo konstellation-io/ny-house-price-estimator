@@ -8,7 +8,7 @@
     "axios": "0.20.0",
     "axios-hooks": "2.1.0",
     "leaflet": "1.7.1",
-    "moment": "2.27.0",
+    "moment": "2.29.4",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-leaflet": "2.7.0",
