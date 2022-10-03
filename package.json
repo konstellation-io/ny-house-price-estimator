@@ -2,6 +2,7 @@
   "release": {
     "branches": "main",
     "plugins": [
+      "@semantic-release/github",
       [
         "@semantic-release/commit-analyzer",
         {

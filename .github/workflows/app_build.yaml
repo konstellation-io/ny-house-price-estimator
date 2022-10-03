@@ -3,9 +3,8 @@ on:
   push:
     tags:
       - 'v*.*.*'
-  release:
-    types:
-      - created
+
+
 jobs:
   docker-build-front:
     runs-on: ubuntu-latest
