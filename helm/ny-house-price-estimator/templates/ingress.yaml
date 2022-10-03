@@ -12,10 +12,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - {{ .Values.domain }}
+        - demo.{{ .Values.domain }}
       secretName: demo-tls-cert
   rules:
-    - host: {{ .Values.domain }}
+    - host: demo.{{ .Values.domain }}
       http:
         paths:
           - backend:

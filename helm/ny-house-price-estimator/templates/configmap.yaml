@@ -4,8 +4,9 @@ metadata:
   name: krt-demo-configmap
   namespace: demo
 data:
-  DOMAIN_NAME: kre-{{ .Values.environment }}.konstellation.io
+  DOMAIN_NAME: {{ .Values.domain }}
+  DOMAIN_NAME: {{ .Values.domain }}
   config.json: |
     {
-      "API_BASE_URL": "https://demo.kre-{{ .Values.environment }}.konstellation.io"
+      "API_BASE_URL": "https://demo.{{ .Values.domain }}"
     }
