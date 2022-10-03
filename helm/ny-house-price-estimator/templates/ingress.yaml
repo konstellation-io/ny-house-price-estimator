@@ -15,7 +15,7 @@ spec:
         - "demo.{{ .Values.domain }}"
       secretName: demo-tls-cert
   rules:
-    - host: "demo.{{ Values.domain }}"
+    - host: "demo.{{ .Values.domain }}"
       http:
         paths:
           - backend:
