@@ -24,6 +24,5 @@ jobs:
             @semantic-release/github@8.0.4
             @semantic-release/commit-analyzer@9.0.2
             @semantic-release/release-notes-generator@10.0.3
-            semantic-release-helm
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
