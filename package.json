@@ -6,6 +6,19 @@
     "branches": "main",
     "plugins": [
       [
+        "semantic-release-helm", {
+            chartPath: '../helm/ny-house-price-estimator',
+            onlyUpdateVersion: false
+        }
+      ],
+      [
+        "@semantic-release/github", {
+          "assets": [
+              { "path": "../helm/ny-house-price-estimator/Chart.yaml", "label": "Demo Chart file" }
+          ]
+        }
+      ],
+      [
         "@semantic-release/commit-analyzer",
         {
           "preset": "angular"

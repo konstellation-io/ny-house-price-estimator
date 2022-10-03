@@ -1,0 +1,52 @@
+---
+name: Helm release
+
+on:
+  push:
+    tags:
+      - "demo-v*.*.*"
+
+jobs:
+  chart-release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PAT }}
+
+      - run: |
+          git config user.name "$GITHUB_ACTOR"
+          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
+
+      - name: Chart releaser
+        run: |
+          # This is a workaround needed because chart-releaser doesn't work with tags: https://github.com/helm/chart-releaser-action/issues/60
+          curl -sSLo cr.tar.gz "https://github.com/helm/chart-releaser/releases/download/v1.2.1/chart-releaser_1.2.1_linux_amd64.tar.gz"
+          tar -xzf cr.tar.gz
+          rm -f cr.tar.gz
+          repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
+          owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+          echo "Creating release..."
+          # package chart
+          ./cr package helm/ny-house-price-estimator
+          # upload chart to github releases
+          ./cr upload \
+              --owner $owner \
+              --git-repo "$repo" \
+              --token "${{ secrets.PAT }}" \
+              --commit "$(git rev-parse HEAD)" \
+              --skip-existing \
+              --release-name-template "{{ .Name }}-{{ .Version }}"
+          # Update index and push to github pages
+          ./cr index \
+              --owner $owner \
+              --git-repo "$repo" \
+              --token "${{ secrets.PAT }}" \
+              --charts-repo "https://konstellation-io.github.io/ny-house-price-estimator" \
+              --index-path index.yaml \
+              --push \
+              --release-name-template "{{ .Name }}-{{ .Version }}"

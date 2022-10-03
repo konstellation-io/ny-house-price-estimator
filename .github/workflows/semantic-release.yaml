@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Semantic Release
+      - name: Semantic Release App
         uses: cycjimmy/semantic-release-action@v3
         id: semantic
         with:
@@ -23,10 +23,10 @@ jobs:
           branch: main
           extends: |
             semantic-release-monorepo
-          working_directory: ./app
           extra_plugins: |
             @semantic-release/github@8.0.4
             @semantic-release/commit-analyzer@9.0.2
             @semantic-release/release-notes-generator@10.0.3
+            semantic-release-helm
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
