@@ -12,10 +12,10 @@ metadata:
 spec:
   tls:
     - hosts:
-        - "demo.kre-{{ .Values.environment }}.konstellation.io"
+        - "demo.{{ .Values.domain }}"
       secretName: demo-tls-cert
   rules:
-    - host: demo.kre-{{ .Values.environment }}.konstellation.io
+    - host: "demo.{{ Values.domain }}"
       http:
         paths:
           - backend:
