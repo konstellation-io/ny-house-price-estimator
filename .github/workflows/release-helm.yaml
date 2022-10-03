@@ -32,8 +32,8 @@ jobs:
           repo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")
           owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
           nextVersion=${GITHUB_REF_NAME#v}
-          yq -i '.version = "${nextVersion}"' helm/ny-house-price-estimator/Chart.yaml
-          yq -i '.appVersion = "${nextVersion}"' helm/ny-house-price-estimator/Chart.yaml
+          yq -i ".version = \"${nextVersion}\"" helm/ny-house-price-estimator/Chart.yaml
+          yq -i ".appVersion = \"${nextVersion}\"" helm/ny-house-price-estimator/Chart.yaml
           echo "Creating release..."
           # package chart
           ./cr package helm/ny-house-price-estimator
