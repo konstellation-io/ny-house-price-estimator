@@ -7,14 +7,14 @@
     "plugins": [
       [
         "semantic-release-helm", {
-            chartPath: '../helm/ny-house-price-estimator',
+            chartPath: './helm/ny-house-price-estimator',
             onlyUpdateVersion: false
         }
       ],
       [
         "@semantic-release/github", {
           "assets": [
-              { "path": "../helm/ny-house-price-estimator/Chart.yaml", "label": "Demo Chart file" }
+              { "path": "./helm/ny-house-price-estimator/Chart.yaml", "label": "Demo Chart file" }
           ]
         }
       ],
