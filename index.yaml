@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   ny-house-price-estimator:
   - apiVersion: v2
+    appVersion: 1.1.1
+    created: "2022-10-03T14:58:06.903102084Z"
+    description: NY House Price Estimator demo app
+    digest: d8735ea227663733ab3f17efe822704c02c170991b9ade1895de9e1d38fcec93
+    name: ny-house-price-estimator
+    urls:
+    - https://github.com/konstellation-io/ny-house-price-estimator/releases/download/ny-house-price-estimator-1.1.1/ny-house-price-estimator-1.1.1.tgz
+    version: 1.1.1
+  - apiVersion: v2
     appVersion: "1.0"
     created: "2022-10-03T13:36:28.347275776Z"
     description: NY House Price Estimator demo app
@@ -10,4 +19,4 @@ entries:
     urls:
     - https://github.com/konstellation-io/ny-house-price-estimator/releases/download/ny-house-price-estimator-0.0.1/ny-house-price-estimator-0.0.1.tgz
     version: 0.0.1
-generated: "2022-10-03T13:36:28.347280176Z"
+generated: "2022-10-03T14:58:06.903107984Z"
