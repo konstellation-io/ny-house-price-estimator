@@ -24,7 +24,7 @@ func main() {
 		log.Fatalln("DOMAIN_NAME env var not defined")
 	}
 
-	config.Entrypoint = fmt.Sprintf("entrypoint.%s:443", config.Domain)
+	config.Entrypoint = fmt.Sprintf("demo-entrypoint.%s:443", config.Domain)
 
 	fmt.Println("*************----------ENTRYPOINT: ", config.Entrypoint)
 	port := os.Getenv("PORT")
