@@ -14,7 +14,7 @@ pytest-asyncio = "*"
 [packages]
 # Available packages in the Python Runner:
 # https://github.com/konstellation-io/kre-runners/blob/main/kre-py/requirements.txt
-protobuf = "==3.13.0"
+protobuf = "==3.18.3"
 
 [requires]
 python_version = "3"
