@@ -1,0 +1,14 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+# Available packages in the Python Runner:
+# https://github.com/konstellation-io/kre-runners/blob/main/kre-py/requirements.txt
+protobuf = "==3.13.0"
+joblib = "==0.17.0"
+scikit-learn = "==0.23.1"
+
+[requires]
+python_version = "3"
