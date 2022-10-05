@@ -56,7 +56,7 @@ def test_classifiers_hyperparam_search(temp_data_dir):
     """
     # Arrange
     test_config["data"]["dir_processed"] = temp_data_dir
-    test_config["artifacts"]["artifacts_temp"] = str(Path(temp_data_dir) / test_config["artifacts"]["artifacts_temp"])
+    test_config["artifacts"]["temporal_folder"] = str(Path(temp_data_dir) / test_config["artifacts"]["temporal_folder"])
     mlflow_mock = get_mlflow_double()
     rf_params = dict(
         n_estimators=[20],
@@ -73,7 +73,7 @@ def test_classifiers_hyperparam_search(temp_data_dir):
     )
 
     # Assert
-    artifacts_created = os.listdir(test_config["artifacts"]["artifacts_temp"])
+    artifacts_created = os.listdir(test_config["artifacts"]["temporal_folder"])
     filenames_expected = [test_config["outputs"]["fname_model"], test_config["outputs"]["fname_conf_matrix"]]
     for fname in filenames_expected:
         assert fname in artifacts_created

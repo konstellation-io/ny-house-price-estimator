@@ -8,8 +8,6 @@ USER kre
 
 COPY ["Pipfile", "Pipfile.lock", "./"]
 
-RUN pipenv --clear install --system --deploy && \
-    pip uninstall protobuf -y && \
-    pip install protobuf==3.20.1 --no-cache-dir
+RUN pipenv --clear install --system --deploy
 
 WORKDIR /kre
