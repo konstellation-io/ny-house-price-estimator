@@ -25,7 +25,7 @@ def save_best_model_in_runtimes_folder(
     best_run = client.search_runs(
         experiment_ids=experiment.experiment_id,
         run_view_type=ViewType.ACTIVE_ONLY,
-        max_results=config["mlflow"]["log_top"],
+        max_results=int(config["mlflow"]["log_top"]),
         order_by=[config["mlflow"]["preferred_metric_1"]],
     )[0]
 
