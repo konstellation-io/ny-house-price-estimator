@@ -25,6 +25,7 @@ def save_best_model_in_runtimes_folder(
     best_run = client.search_runs(
         experiment_ids=experiment.experiment_id,
         run_view_type=ViewType.ACTIVE_ONLY,
+        filter_string=config["mlflow"]["query"],
         max_results=int(config["mlflow"]["log_top"]),
         order_by=["metric.roc_auc ASC"],
     )[0]
