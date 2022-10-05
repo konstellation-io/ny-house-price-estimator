@@ -59,9 +59,12 @@ def classifiers_hyperparam_search(
         feature_names = [
             "neighbourhood",
             "room_type",
+            "latitude",
+            "longitude",
             "accommodates",
             "bathrooms",
             "bedrooms",
+            "beds",
         ]
         amenities = [
             "TV",
