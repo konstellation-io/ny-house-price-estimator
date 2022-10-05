@@ -3,7 +3,7 @@ description: New Room Price predictions.
 
 entrypoint:
   proto: public_input.proto
-  image: konstellation/kre-entrypoint:1.6.0
+  image: konstellation/kre-entrypoint:1.8.1
 
 config:
   variables:
@@ -11,16 +11,16 @@ config:
 
 nodes:
   - name: etl
-    image: konstellation/kre-py:1.23.1
+    image: konstellation/ny-house-price-estimator:1.0.0
     src: src/etl/main.py
   - name: model
-    image: konstellation/kre-py:1.23.1
+    image: konstellation/ny-house-price-estimator:1.0.0
     src: src/model/main.py
   - name: output
-    image: konstellation/kre-py:1.23.1
+    image: konstellation/ny-house-price-estimator:1.0.0
     src: src/output/main.py
   - name: save-metric
-    image: konstellation/kre-py:1.23.1
+    image: konstellation/ny-house-price-estimator:1.0.0
     src: src/save-prediction-metric/main.py
 
 workflows:
