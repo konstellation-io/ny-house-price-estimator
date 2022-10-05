@@ -18,4 +18,4 @@ if __name__ == "__main__":
     config = load_config(PATH_CONFIG)
     model = save_best_model_in_runtimes_folder(config, MLFLOW_URL)
     print("Model: ", model)
-    os.rename(model, f'{config["artifacts"]["model_destination_path"]}/model.joblib')
+    os.rename(model, f'{config["outputs"]["model_destination_path"]}/model.joblib')
