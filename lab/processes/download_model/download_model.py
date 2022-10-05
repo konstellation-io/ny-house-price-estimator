@@ -26,7 +26,7 @@ def save_best_model_in_runtimes_folder(
         experiment_ids=experiment.experiment_id,
         run_view_type=ViewType.ACTIVE_ONLY,
         max_results=config["mlflow"]["log_top"],
-        order_by=[config["mlflow"]["prefered_metric_1"]],
+        order_by=[config["mlflow"]["preferred_metric_1"]],
     )[0]
 
     # register the best model
