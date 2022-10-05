@@ -30,7 +30,7 @@ def save_best_model_in_runtimes_folder(
     )[0]
 
     # register the best model
-    return mlflow.download_artifact(
+    return mlflow.artifacts.download_artifacts(
         f'runs:/{best_run.info.run_id}/{config["outputs"]["fname_model"]}',
         dst_path=config["outputs"]["model_destination_path"],
     )
