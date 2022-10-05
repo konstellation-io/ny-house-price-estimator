@@ -123,6 +123,11 @@ steps:
   #     - pipenv install --dev --system
   #     - pytest runtime/src/etl
 
+  - name: chown emptydir
+    image: alpine
+    commands:
+      - chown 1000 -R .
+
   - name: build-krt
     image: konstellation/kdl-py:3.9-1.3.1
     environment:
