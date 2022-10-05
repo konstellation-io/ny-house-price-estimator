@@ -66,12 +66,7 @@ def classifiers_hyperparam_search(
         amenities = [
             "TV",
             "Internet",
-            "Air_conditioning",
-            "Kitchen",
-            "Heating",
-            "Wifi",
             "Elevator",
-            "Breakfast",
         ]
 
         if include_amenities:
