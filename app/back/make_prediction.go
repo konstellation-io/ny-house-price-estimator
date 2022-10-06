@@ -32,9 +32,10 @@ func (basicAuth) RequireTransportSecurity() bool {
 	return true
 }
 
-var bauth basicAuth = basicAuth{username: os.Getenv("USERNAME"), password: os.Getenv("PASSWORD")}
-
 func proxyMakePrediction(w http.ResponseWriter, req *http.Request) {
+
+	bauth := basicAuth{username: os.Getenv("USERNAME"), password: os.Getenv("PASSWORD")}
+
 	setupResponse(&w, req)
 	if (*req).Method == "OPTIONS" {
 		return
