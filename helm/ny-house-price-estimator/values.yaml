@@ -1,3 +1,9 @@
 domain: "subdomain.domain.com"
 ingress:
   annotations: {}
+
+secrets:
+  enabled: true
+  name: "backend-secrets"
+  values:
+    BASIC_AUTH_CREDENTIALS: "admin:admin"

@@ -31,6 +31,11 @@ spec:
                   key: DOMAIN_NAME
             - name: PORT
               value: '5000'
+            {{- if .Values.secrets.enabled }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.secrets.name }}
+            {{- end }}
           ports:
             - containerPort: 5000
               protocol: TCP
