@@ -1,7 +1,6 @@
-import os
-from configparser import ConfigParser
-
 import mlflow
+
+from configparser import ConfigParser
 from mlflow.entities import ViewType
 from mlflow.tracking import MlflowClient
 
