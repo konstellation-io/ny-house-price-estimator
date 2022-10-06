@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -14,7 +15,24 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-var basicAuth string = os.Getenv("BASIC_AUTH_CREDENTIALS")
+type basicAuth struct {
+	username string
+	password string
+}
+
+func (b basicAuth) GetRequestMetadata(ctx context.Context, in ...string) (map[string]string, error) {
+	auth := b.username + ":" + b.password
+	enc := base64.StdEncoding.EncodeToString([]byte(auth))
+	return map[string]string{
+		"authorization": "Basic " + enc,
+	}, nil
+}
+
+func (basicAuth) RequireTransportSecurity() bool {
+	return true
+}
+
+var bauth basicAuth = basicAuth{username: os.Getenv("USERNAME"), password: os.Getenv("PASSWORD")}
 
 func proxyMakePrediction(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
@@ -49,7 +67,8 @@ func proxyMakePrediction(w http.ResponseWriter, req *http.Request) {
 
 	log.Println("--------------  Calling MakePrediction Service -------------")
 
-	cc, err := grpc.Dial(config.Entrypoint, grpc.WithTransportCredentials(credentials.NewTLS(&tlsConf)))
+	cc, err := grpc.Dial(config.Entrypoint, grpc.WithTransportCredentials(credentials.NewTLS(&tlsConf)),
+		grpc.WithPerRPCCredentials(bauth))
 	if err != nil {
 		err := fmt.Errorf("error calling service: %w", err)
 		sendErrorResponse(w, err, http.StatusInternalServerError)
@@ -81,6 +100,5 @@ func proxyMakePrediction(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Authorization", "Basic" + basicAuth)
 	w.Write(js)
 }
