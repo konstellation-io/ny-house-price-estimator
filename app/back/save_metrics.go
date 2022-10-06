@@ -38,7 +38,8 @@ func proxySaveMetrics(w http.ResponseWriter, req *http.Request) {
 
 		log.Println("--------------  Calling SavePredictionMetric Service -------------")
 
-		cc, err := grpc.Dial(config.Entrypoint, grpc.WithTransportCredentials(credentials.NewTLS(&tlsConf)))
+		cc, err := grpc.Dial(config.Entrypoint, grpc.WithTransportCredentials(credentials.NewTLS(&tlsConf)),
+			grpc.WithPerRPCCredentials(bauth))
 		if err != nil {
 			err := fmt.Errorf("error calling service: %w", err)
 			sendErrorResponse(w, err, http.StatusInternalServerError)

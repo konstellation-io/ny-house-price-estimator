@@ -2,39 +2,18 @@ package main
 
 import (
 	"context"
-	"encoding/base64"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/golang/protobuf/jsonpb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
 
-type basicAuth struct {
-	username string
-	password string
-}
-
-func (b basicAuth) GetRequestMetadata(ctx context.Context, in ...string) (map[string]string, error) {
-	auth := b.username + ":" + b.password
-	enc := base64.StdEncoding.EncodeToString([]byte(auth))
-	return map[string]string{
-		"authorization": "Basic " + enc,
-	}, nil
-}
-
-func (basicAuth) RequireTransportSecurity() bool {
-	return true
-}
-
 func proxyMakePrediction(w http.ResponseWriter, req *http.Request) {
-
-	bauth := basicAuth{username: os.Getenv("USERNAME"), password: os.Getenv("PASSWORD")}
 
 	setupResponse(&w, req)
 	if (*req).Method == "OPTIONS" {
