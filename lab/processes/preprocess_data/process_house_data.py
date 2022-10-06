@@ -32,9 +32,7 @@ def process_house_data(config: ConfigParser) -> None:
 
     # Subset on columns of choice  IMPROVE: Import from a config file
     columns = [
-        "id",
         "neighbourhood_group_cleansed",
-        "property_type",
         "room_type",
         "latitude",
         "longitude",

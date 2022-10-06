@@ -7,11 +7,14 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/golang/protobuf/jsonpb"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 )
+
+var basicAuth string = os.Getenv("BASIC_AUTH_CREDENTIALS")
 
 func proxyMakePrediction(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
@@ -78,5 +81,6 @@ func proxyMakePrediction(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Authorization", "Basic" + basicAuth)
 	w.Write(js)
 }
