@@ -22,5 +22,3 @@ func (b basicAuth) GetRequestMetadata(ctx context.Context, in ...string) (map[st
 func (basicAuth) RequireTransportSecurity() bool {
 	return true
 }
-
-var bauth basicAuth = basicAuth{username: os.Getenv("USERNAME"), password: os.Getenv("PASSWORD")}

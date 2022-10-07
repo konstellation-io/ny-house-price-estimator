@@ -9,6 +9,7 @@ import (
 )
 
 const defaultPort = "4000"
+const bauth basicAuth = basicAuth{username: os.Getenv("USERNAME"), password: os.Getenv("PASSWORD")}
 
 var tlsConf tls.Config
 
