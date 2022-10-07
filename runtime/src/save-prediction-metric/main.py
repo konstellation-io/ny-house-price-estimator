@@ -9,7 +9,7 @@ async def handler(ctx, data):
 
     ctx.logger.info(f"Adding real value to prediction: {req.real_category}")
     date = datetime.fromtimestamp(req.date)
-    await ctx.prediction.save(req.predicted_category, req.real_category, date)
+    await ctx.prediction.save(req.predicted_category, req.real_category, date.isoformat())
 
     res = SaveMetricResponse()
     res.success = True
