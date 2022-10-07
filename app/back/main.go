@@ -11,6 +11,7 @@ import (
 const defaultPort = "4000"
 
 var tlsConf tls.Config
+var bauth basicAuth = basicAuth{username: os.Getenv("USERNAME"), password: os.Getenv("PASSWORD")}
 
 var config struct {
 	Port       string
