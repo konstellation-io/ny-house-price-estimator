@@ -3,7 +3,7 @@ description: New Room Price predictions.
 
 entrypoint:
   proto: public_input.proto
-  image: konstellation/kre-entrypoint:1.8.1
+  image: konstellation/kre-entrypoint:3.0.0
 
 config:
   variables:
