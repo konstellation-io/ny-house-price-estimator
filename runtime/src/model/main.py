@@ -3,7 +3,7 @@ from internal_nodes_pb2 import EtlOutput, ModelOutput
 from sklearn.ensemble import RandomForestClassifier
 
 
-def init(ctx):
+def init(ctx) -> None:
     ctx.logger.info("Initializing runner")
 
     model_path = ctx.path("models/model.joblib")
@@ -14,7 +14,7 @@ def init(ctx):
     ctx.logger.info("Model loaded")
 
 
-async def default_handler(ctx, data):
+async def default_handler(ctx, data) -> None:
     req = EtlOutput()
     data.Unpack(req)
 

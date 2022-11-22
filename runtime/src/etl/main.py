@@ -6,7 +6,7 @@ from internal_nodes_pb2 import EtlOutput
 from public_input_pb2 import Request
 
 
-def init(ctx):
+def init(ctx) -> None:
     ctx.logger.info("Initializing runner")
 
     encoder_path = ctx.path("models/encoder.joblib")
@@ -17,7 +17,7 @@ def init(ctx):
     ctx.logger.info("Encoder loaded")
 
 
-async def default_handler(ctx, data):
+async def default_handler(ctx, data) -> None:
     req = Request()
     data.Unpack(req)
     encoder: Dict = ctx.get("encoder")

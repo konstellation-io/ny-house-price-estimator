@@ -3,7 +3,7 @@ from datetime import datetime
 from public_input_pb2 import SaveMetricRequest, SaveMetricResponse
 
 
-async def default_handler(ctx, data):
+async def default_handler(ctx, data) -> None:
     req = SaveMetricRequest()
     data.Unpack(req)
 
