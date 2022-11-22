@@ -1,5 +1,7 @@
 import joblib
 
+from typing import Any, Dict
+
 from internal_nodes_pb2 import EtlOutput
 from public_input_pb2 import Request
 
@@ -10,7 +12,7 @@ def init(ctx):
     encoder_path = ctx.path("models/encoder.joblib")
     ctx.logger.info(f"Loading encoder from {encoder_path}")
 
-    encoder: dict = joblib.load(encoder_path)
+    encoder: Dict = joblib.load(encoder_path)
     ctx.set("encoder", encoder)
     ctx.logger.info("Encoder loaded")
 
@@ -18,11 +20,11 @@ def init(ctx):
 async def default_handler(ctx, data):
     req = Request()
     data.Unpack(req)
-    encoder: dict = ctx.get("encoder")
+    encoder: Dict = ctx.get("encoder")
     return new_etl_output(ctx, encoder, req)
 
 
-def new_etl_output(ctx, encoder, req: Request):
+def new_etl_output(ctx, encoder: Dict[str, Any], req: Request):
     res = EtlOutput()
     res.request.CopyFrom(req)
 

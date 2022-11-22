@@ -715,3 +715,6 @@ $RECYCLE.BIN/
 *.msix
 # Windows shortcuts
 *.lnk
+
+# Custom files
+!runtime/scripts
