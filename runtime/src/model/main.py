@@ -29,7 +29,7 @@ async def default_handler(ctx, data) -> None:
     return
 
 
-def predict_price_category(clf: RandomForestClassifier, features: EtlOutput.ModelInput) -> int:
+def predict_price_category(clf: RandomForestClassifier, features: EtlOutput.ModelInput) -> float:
     model_input = [
         [
             features.accommodates,
