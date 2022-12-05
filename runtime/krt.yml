@@ -11,16 +11,16 @@ config:
 
 nodes:
   - name: etl
-    image: konstellation/ny-house-price-estimator:1.0.0
+    image: konstellation/ny-house-price-estimator:2.0.0
     src: src/etl/main.py
   - name: model
-    image: konstellation/ny-house-price-estimator:1.0.0
+    image: konstellation/ny-house-price-estimator:2.0.0
     src: src/model/main.py
   - name: output
-    image: konstellation/ny-house-price-estimator:1.0.0
+    image: konstellation/ny-house-price-estimator:2.0.0
     src: src/output/main.py
   - name: save-metric
-    image: konstellation/ny-house-price-estimator:1.0.0
+    image: konstellation/ny-house-price-estimator:2.0.0
     src: src/save-prediction-metric/main.py
 
 workflows:
