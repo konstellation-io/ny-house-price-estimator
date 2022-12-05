@@ -2,7 +2,7 @@ import os
 
 from google.protobuf.json_format import MessageToDict
 
-from typing import Any, Dict
+from typing import Any, Dict, Tuple
 
 from internal_nodes_pb2 import ModelOutput
 from public_input_pb2 import Response
@@ -45,7 +45,7 @@ async def default_handler(ctx, data) -> None:
     return
 
 
-def get_market_price_and_label(price_cat: int, currency: str) -> (str, str):
+def get_market_price_and_label(price_cat: int, currency: str) -> Tuple[str, str]:
     market_price = f"{PRICE_RANGES[price_cat]} {currency}"
     label = PRICE_LABELS[price_cat]
     return market_price, label

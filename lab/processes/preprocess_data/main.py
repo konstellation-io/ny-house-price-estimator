@@ -7,7 +7,7 @@ import os
 from lib.config import load_config
 from processes.preprocess_data.process_house_data import process_house_data
 
-PATH_CONFIG = os.getenv("PATH_CONFIG")
+PATH_CONFIG = os.getenv("PATH_CONFIG", "")
 
 
 if __name__ == "__main__":
