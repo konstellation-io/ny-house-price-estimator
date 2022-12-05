@@ -21,10 +21,11 @@ async def default_handler(ctx, data) -> None:
     req = Request()
     data.Unpack(req)
     encoder: Dict = ctx.get("encoder")
-    return new_etl_output(ctx, encoder, req)
+    await new_etl_output(ctx, encoder, req)
+    return
 
 
-def new_etl_output(ctx, encoder: Dict[str, Any], req: Request):
+async def new_etl_output(ctx, encoder: Dict[str, Any], req: Request):
     res = EtlOutput()
     res.request.CopyFrom(req)
 
