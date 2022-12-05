@@ -8,7 +8,7 @@ from internal_nodes_pb2 import ModelOutput
 from public_input_pb2 import Response
 
 MEASUREMENT = "features"
-MEASUREMENT_TAGS = Dict[str, Any]
+MEASUREMENT_TAGS: Dict[str, Any] = {}
 
 PRICE_RANGES = ("10-90", "91-180", "181-400", "+401")
 PRICE_LABELS = ("low", "mid", "high", "lux")
