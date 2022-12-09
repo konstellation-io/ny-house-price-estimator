@@ -1,12 +1,10 @@
-from main import init, handler
-from unittest import mock
 import os
+from unittest import mock
 
-import pytest
 import joblib
-
-from main import predict_price_category
+import pytest
 from internal_nodes_pb2 import EtlOutput, ModelOutput
+from main import handler, init, predict_price_category
 
 
 class CtxMock:
@@ -28,13 +26,14 @@ def test_init():
 @pytest.mark.asyncio
 async def test_handler():
     ctx = CtxMock()
-    ctx.get.return_value = joblib.load('../../models/model.joblib')
+    ctx.get.return_value = joblib.load("../../models/model.joblib")
 
     expected_result = ModelOutput()
     expected_result.request.neighbourhood = "Manhattan"
     expected_result.price_category = 3
 
     class DataMock:
+
         def Unpack(self, obj):
             obj.request.neighbourhood = expected_result.request.neighbourhood
             m = obj.model_input
@@ -69,7 +68,7 @@ def test_get_price_category_lux():
     m.elevator = True
     m.internet = True
 
-    clf = joblib.load('../../models/model.joblib')
+    clf = joblib.load("../../models/model.joblib")
     cat = predict_price_category(clf, m)
     assert cat == 3
 
@@ -89,6 +88,6 @@ def test_get_price_category_low():
     m.elevator = False
     m.internet = False
 
-    clf = joblib.load('../../models/model.joblib')
+    clf = joblib.load("../../models/model.joblib")
     cat = predict_price_category(clf, m)
     assert cat == 0

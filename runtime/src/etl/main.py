@@ -1,7 +1,6 @@
-import joblib
-
 from typing import Any, Dict
 
+import joblib
 from internal_nodes_pb2 import EtlOutput
 from public_input_pb2 import Request
 

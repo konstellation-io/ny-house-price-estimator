@@ -15,10 +15,13 @@ def load_config(path_config: str) -> ConfigParser:
     # loads nothing, leading to unhelpful error messages further down the line when trying to access its contents.
     # Instead, better fail early:
     if path_config is None:
-        raise ValueError(f"Please provide a valid filepath for config (received: {str(path_config)}).")
+        raise ValueError(
+            f"Please provide a valid filepath for config (received: {str(path_config)})."
+        )
 
     if not Path(path_config).exists():
-        raise FileNotFoundError(f"Could not find config at path: {str(path_config)}")
+        raise FileNotFoundError(
+            f"Could not find config at path: {str(path_config)}")
 
     config = ConfigParser()
     config.read(str(path_config))

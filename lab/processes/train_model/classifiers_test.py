@@ -8,7 +8,6 @@ import shutil
 from pathlib import Path
 
 import pytest
-
 from lib.testing import get_mlflow_double
 from processes.preprocess_data.process_house_data import process_house_data
 from processes.train_model.classifiers import classifiers_hyperparam_search
@@ -56,7 +55,8 @@ def test_classifiers_hyperparam_search(temp_data_dir):
     """
     # Arrange
     test_config["data"]["dir_processed"] = temp_data_dir
-    test_config["artifacts"]["temporal_folder"] = str(Path(temp_data_dir) / test_config["artifacts"]["temporal_folder"])
+    test_config["artifacts"]["temporal_folder"] = str(
+        Path(temp_data_dir) / test_config["artifacts"]["temporal_folder"])
     mlflow_mock = get_mlflow_double()
     rf_params = dict(
         n_estimators=[20],
@@ -69,11 +69,18 @@ def test_classifiers_hyperparam_search(temp_data_dir):
 
     # Call function under test
     classifiers_hyperparam_search(
-        mlflow=mlflow_mock, config=test_config, mlflow_url="", train_params=rf_params, mlflow_tags={}
+        mlflow=mlflow_mock,
+        config=test_config,
+        mlflow_url="",
+        train_params=rf_params,
+        mlflow_tags={},
     )
 
     # Assert
     artifacts_created = os.listdir(test_config["artifacts"]["temporal_folder"])
-    filenames_expected = [test_config["outputs"]["fname_model"], test_config["outputs"]["fname_conf_matrix"]]
+    filenames_expected = [
+        test_config["outputs"]["fname_model"],
+        test_config["outputs"]["fname_conf_matrix"],
+    ]
     for fname in filenames_expected:
         assert fname in artifacts_created

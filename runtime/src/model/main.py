@@ -29,21 +29,20 @@ async def default_handler(ctx, data) -> None:
     return
 
 
-def predict_price_category(clf: RandomForestClassifier, features: EtlOutput.ModelInput) -> float:
-    model_input = [
-        [
-            features.accommodates,
-            features.room_type,
-            features.beds,
-            features.bedrooms,
-            features.bathrooms,
-            features.neighbourhood,
-            features.tv,
-            features.elevator,
-            features.internet,
-            features.latitude,
-            features.longitude,
-        ]
-    ]
+def predict_price_category(clf: RandomForestClassifier,
+                           features: EtlOutput.ModelInput) -> float:
+    model_input = [[
+        features.accommodates,
+        features.room_type,
+        features.beds,
+        features.bedrooms,
+        features.bathrooms,
+        features.neighbourhood,
+        features.tv,
+        features.elevator,
+        features.internet,
+        features.latitude,
+        features.longitude,
+    ]]
     prediction = clf.predict(model_input)
     return prediction.item()

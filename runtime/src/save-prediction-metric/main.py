@@ -9,7 +9,8 @@ async def default_handler(ctx, data) -> None:
 
     ctx.logger.info(f"Adding real value to prediction: {req.real_category}")
     date = datetime.fromtimestamp(req.date)
-    await ctx.prediction.save(req.predicted_category, req.real_category, date.isoformat())
+    await ctx.prediction.save(req.predicted_category, req.real_category,
+                              date.isoformat())
 
     res = SaveMetricResponse()
     res.success = True

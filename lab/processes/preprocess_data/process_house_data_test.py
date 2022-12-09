@@ -8,7 +8,6 @@ import shutil
 from pathlib import Path
 
 import pytest
-
 from processes.preprocess_data.process_house_data import process_house_data
 
 test_config = configparser.ConfigParser()

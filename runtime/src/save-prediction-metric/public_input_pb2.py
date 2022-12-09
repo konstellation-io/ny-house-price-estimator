@@ -11,58 +11,67 @@ from google.protobuf import symbol_database as _symbol_database
 
 _sym_db = _symbol_database.Default()
 
-
-
-
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12public_input.proto\x12\nentrypoint\"\xd1\x01\n\x07Request\x12\x11\n\troom_type\x18\x01 \x01(\t\x12\x10\n\x08\x62\x65\x64rooms\x18\x02 \x01(\x05\x12\x11\n\tbathrooms\x18\x03 \x01(\x02\x12\x14\n\x0c\x61\x63\x63ommodates\x18\x04 \x01(\x05\x12\x0c\n\x04\x62\x65\x64s\x18\x05 \x01(\x05\x12\x15\n\rneighbourhood\x18\x06 \x01(\t\x12\x10\n\x08latitude\x18\x07 \x01(\x02\x12\x11\n\tlongitude\x18\x08 \x01(\x02\x12\n\n\x02tv\x18\t \x01(\x05\x12\x10\n\x08\x65levator\x18\n \x01(\x05\x12\x10\n\x08internet\x18\x0b \x01(\x05\"T\n\x08Response\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x14\n\x0cmarket_price\x18\x03 \x01(\t\x12\x10\n\x08\x63\x61tegory\x18\x04 \x01(\t\"T\n\x11SaveMetricRequest\x12\x1a\n\x12predicted_category\x18\x01 \x01(\t\x12\x15\n\rreal_category\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\"6\n\x12SaveMetricResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t2\xa4\x01\n\nEntrypoint\x12=\n\x0eMakePrediction\x12\x13.entrypoint.Request\x1a\x14.entrypoint.Response\"\x00\x12W\n\x14SavePredictionMetric\x12\x1d.entrypoint.SaveMetricRequest\x1a\x1e.entrypoint.SaveMetricResponse\"\x00\x42\x06Z\x04mainb\x06proto3')
-
-
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(
+    b'\n\x12public_input.proto\x12\nentrypoint\"\xd1\x01\n\x07Request\x12\x11\n\troom_type\x18\x01 \x01(\t\x12\x10\n\x08\x62\x65\x64rooms\x18\x02 \x01(\x05\x12\x11\n\tbathrooms\x18\x03 \x01(\x02\x12\x14\n\x0c\x61\x63\x63ommodates\x18\x04 \x01(\x05\x12\x0c\n\x04\x62\x65\x64s\x18\x05 \x01(\x05\x12\x15\n\rneighbourhood\x18\x06 \x01(\t\x12\x10\n\x08latitude\x18\x07 \x01(\x02\x12\x11\n\tlongitude\x18\x08 \x01(\x02\x12\n\n\x02tv\x18\t \x01(\x05\x12\x10\n\x08\x65levator\x18\n \x01(\x05\x12\x10\n\x08internet\x18\x0b \x01(\x05\"T\n\x08Response\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x14\n\x0cmarket_price\x18\x03 \x01(\t\x12\x10\n\x08\x63\x61tegory\x18\x04 \x01(\t\"T\n\x11SaveMetricRequest\x12\x1a\n\x12predicted_category\x18\x01 \x01(\t\x12\x15\n\rreal_category\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61te\x18\x03 \x01(\x03\"6\n\x12SaveMetricResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t2\xa4\x01\n\nEntrypoint\x12=\n\x0eMakePrediction\x12\x13.entrypoint.Request\x1a\x14.entrypoint.Response\"\x00\x12W\n\x14SavePredictionMetric\x12\x1d.entrypoint.SaveMetricRequest\x1a\x1e.entrypoint.SaveMetricResponse\"\x00\x42\x06Z\x04mainb\x06proto3'
+)
 
 _REQUEST = DESCRIPTOR.message_types_by_name['Request']
 _RESPONSE = DESCRIPTOR.message_types_by_name['Response']
 _SAVEMETRICREQUEST = DESCRIPTOR.message_types_by_name['SaveMetricRequest']
 _SAVEMETRICRESPONSE = DESCRIPTOR.message_types_by_name['SaveMetricResponse']
-Request = _reflection.GeneratedProtocolMessageType('Request', (_message.Message,), {
-  'DESCRIPTOR' : _REQUEST,
-  '__module__' : 'public_input_pb2'
-  # @@protoc_insertion_point(class_scope:entrypoint.Request)
-  })
+Request = _reflection.GeneratedProtocolMessageType(
+    'Request',
+    (_message.Message, ),
+    {
+        'DESCRIPTOR': _REQUEST,
+        '__module__': 'public_input_pb2'
+        # @@protoc_insertion_point(class_scope:entrypoint.Request)
+    })
 _sym_db.RegisterMessage(Request)
 
-Response = _reflection.GeneratedProtocolMessageType('Response', (_message.Message,), {
-  'DESCRIPTOR' : _RESPONSE,
-  '__module__' : 'public_input_pb2'
-  # @@protoc_insertion_point(class_scope:entrypoint.Response)
-  })
+Response = _reflection.GeneratedProtocolMessageType(
+    'Response',
+    (_message.Message, ),
+    {
+        'DESCRIPTOR': _RESPONSE,
+        '__module__': 'public_input_pb2'
+        # @@protoc_insertion_point(class_scope:entrypoint.Response)
+    })
 _sym_db.RegisterMessage(Response)
 
-SaveMetricRequest = _reflection.GeneratedProtocolMessageType('SaveMetricRequest', (_message.Message,), {
-  'DESCRIPTOR' : _SAVEMETRICREQUEST,
-  '__module__' : 'public_input_pb2'
-  # @@protoc_insertion_point(class_scope:entrypoint.SaveMetricRequest)
-  })
+SaveMetricRequest = _reflection.GeneratedProtocolMessageType(
+    'SaveMetricRequest',
+    (_message.Message, ),
+    {
+        'DESCRIPTOR': _SAVEMETRICREQUEST,
+        '__module__': 'public_input_pb2'
+        # @@protoc_insertion_point(class_scope:entrypoint.SaveMetricRequest)
+    })
 _sym_db.RegisterMessage(SaveMetricRequest)
 
-SaveMetricResponse = _reflection.GeneratedProtocolMessageType('SaveMetricResponse', (_message.Message,), {
-  'DESCRIPTOR' : _SAVEMETRICRESPONSE,
-  '__module__' : 'public_input_pb2'
-  # @@protoc_insertion_point(class_scope:entrypoint.SaveMetricResponse)
-  })
+SaveMetricResponse = _reflection.GeneratedProtocolMessageType(
+    'SaveMetricResponse',
+    (_message.Message, ),
+    {
+        'DESCRIPTOR': _SAVEMETRICRESPONSE,
+        '__module__': 'public_input_pb2'
+        # @@protoc_insertion_point(class_scope:entrypoint.SaveMetricResponse)
+    })
 _sym_db.RegisterMessage(SaveMetricResponse)
 
 _ENTRYPOINT = DESCRIPTOR.services_by_name['Entrypoint']
 if _descriptor._USE_C_DESCRIPTORS == False:
 
-  DESCRIPTOR._options = None
-  DESCRIPTOR._serialized_options = b'Z\004main'
-  _REQUEST._serialized_start=35
-  _REQUEST._serialized_end=244
-  _RESPONSE._serialized_start=246
-  _RESPONSE._serialized_end=330
-  _SAVEMETRICREQUEST._serialized_start=332
-  _SAVEMETRICREQUEST._serialized_end=416
-  _SAVEMETRICRESPONSE._serialized_start=418
-  _SAVEMETRICRESPONSE._serialized_end=472
-  _ENTRYPOINT._serialized_start=475
-  _ENTRYPOINT._serialized_end=639
+    DESCRIPTOR._options = None
+    DESCRIPTOR._serialized_options = b'Z\004main'
+    _REQUEST._serialized_start = 35
+    _REQUEST._serialized_end = 244
+    _RESPONSE._serialized_start = 246
+    _RESPONSE._serialized_end = 330
+    _SAVEMETRICREQUEST._serialized_start = 332
+    _SAVEMETRICREQUEST._serialized_end = 416
+    _SAVEMETRICRESPONSE._serialized_start = 418
+    _SAVEMETRICRESPONSE._serialized_end = 472
+    _ENTRYPOINT._serialized_start = 475
+    _ENTRYPOINT._serialized_end = 639
 # @@protoc_insertion_point(module_scope)

@@ -6,7 +6,6 @@ from configparser import ConfigParser
 from pathlib import Path
 
 import pandas as pd
-
 from lib.data_processing import preprocess_amenities_column, preprocess_target_variable
 from processes.preprocess_data.mappings import MAP_NEIGHB, MAP_ROOM_TYPE
 
@@ -44,7 +43,8 @@ def process_house_data(config: ConfigParser) -> None:
         "price",
     ]
     df = df_raw[columns].copy()
-    df.rename(columns={"neighbourhood_group_cleansed": "neighbourhood"}, inplace=True)
+    df.rename(columns={"neighbourhood_group_cleansed": "neighbourhood"},
+              inplace=True)
 
     # Preprocess the target variable
     df = preprocess_target_variable(df)
