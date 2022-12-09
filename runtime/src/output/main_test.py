@@ -3,9 +3,8 @@ from unittest import mock
 
 import pytest
 from google.protobuf.json_format import MessageToDict
-
 from internal_nodes_pb2 import ModelOutput
-from main import init, handler
+from main import handler, init
 from public_input_pb2 import Response
 
 
@@ -43,11 +42,12 @@ async def test_handler():
 
     expected_result = Response()
     expected_result.success = True
-    expected_result.message = 'Predicted market price'
-    expected_result.market_price = '+401 EUR'
-    expected_result.category = 'lux'
+    expected_result.message = "Predicted market price"
+    expected_result.market_price = "+401 EUR"
+    expected_result.category = "lux"
 
     class DataMock:
+
         def Unpack(self, obj):
             obj.request.neighbourhood = "Manhattan"
             obj.price_category = 3
@@ -57,7 +57,11 @@ async def test_handler():
 
     req = ModelOutput()
     req.request.neighbourhood = "Manhattan"
-    measurement_fields = MessageToDict(req.request, preserving_proto_field_name=True,
-                                       including_default_value_fields=True)
+    measurement_fields = MessageToDict(
+        req.request,
+        preserving_proto_field_name=True,
+        including_default_value_fields=True,
+    )
     measurement_fields["prediction"] = "lux"
-    ctx.measurement.save.assert_called_once_with("features", measurement_fields, {})
+    ctx.measurement.save.assert_called_once_with("features",
+                                                 measurement_fields, {})

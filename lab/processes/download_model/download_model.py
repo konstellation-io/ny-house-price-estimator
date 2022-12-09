@@ -1,6 +1,6 @@
-import mlflow
-
 from configparser import ConfigParser
+
+import mlflow
 from mlflow.entities import ViewType
 from mlflow.tracking import MlflowClient
 
@@ -19,7 +19,8 @@ def save_best_model_in_runtimes_folder(
     """
     mlflow.set_tracking_uri(mlflow_url)
     client = MlflowClient()
-    experiment = client.get_experiment_by_name(config["mlflow"]["mlflow_experiment"])
+    experiment = client.get_experiment_by_name(
+        config["mlflow"]["mlflow_experiment"])
 
     best_run = client.search_runs(
         experiment_ids=experiment.experiment_id,

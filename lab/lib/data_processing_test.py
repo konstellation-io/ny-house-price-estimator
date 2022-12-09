@@ -7,7 +7,6 @@ import unittest
 import numpy as np
 import pandas as pd
 import pytest
-
 from lib.data_processing import preprocess_target_variable
 
 

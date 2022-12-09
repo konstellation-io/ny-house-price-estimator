@@ -2,7 +2,7 @@
 Reusable functions for testing
 """
 
-from mock import MagicMock
+from unittest.mock import MagicMock
 
 
 def get_mlflow_double() -> MagicMock:

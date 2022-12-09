@@ -5,7 +5,6 @@ Main code for the train_model node
 import os
 
 import mlflow
-
 from lib.config import load_config
 from processes.train_model.classifiers import classifiers_hyperparam_search
 
@@ -21,10 +20,13 @@ RF_PARAMS = dict(
     random_state=[0],
 )
 
-
 if __name__ == "__main__":
 
     config = load_config(PATH_CONFIG)
     classifiers_hyperparam_search(
-        mlflow=mlflow, config=config, mlflow_url=MLFLOW_URL, train_params=RF_PARAMS, mlflow_tags=MLFLOW_TAGS
+        mlflow=mlflow,
+        config=config,
+        mlflow_url=MLFLOW_URL,
+        train_params=RF_PARAMS,
+        mlflow_tags=MLFLOW_TAGS,
     )

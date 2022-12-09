@@ -1,9 +1,7 @@
 import os
-
-from google.protobuf.json_format import MessageToDict
-
 from typing import Any, Dict, Tuple
 
+from google.protobuf.json_format import MessageToDict
 from internal_nodes_pb2 import ModelOutput
 from public_input_pb2 import Response
 
@@ -25,12 +23,16 @@ async def default_handler(ctx, data) -> None:
     req = ModelOutput()
     data.Unpack(req)
 
-    market_price, label = get_market_price_and_label(req.price_category, ctx.get("currency"))
-    ctx.logger.info(f"Estimated market price[{market_price}] with label[{label}]")
+    market_price, label = get_market_price_and_label(req.price_category,
+                                                     ctx.get("currency"))
+    ctx.logger.info(
+        f"Estimated market price[{market_price}] with label[{label}]")
 
     # Stores input fields and prediction to measurements
     measurement_fields = MessageToDict(
-        req.request, preserving_proto_field_name=True, including_default_value_fields=True
+        req.request,
+        preserving_proto_field_name=True,
+        including_default_value_fields=True,
     )
     measurement_fields["prediction"] = label
     ctx.measurement.save(MEASUREMENT, measurement_fields, MEASUREMENT_TAGS)
@@ -45,7 +47,8 @@ async def default_handler(ctx, data) -> None:
     return
 
 
-def get_market_price_and_label(price_cat: int, currency: str) -> Tuple[str, str]:
+def get_market_price_and_label(price_cat: int,
+                               currency: str) -> Tuple[str, str]:
     market_price = f"{PRICE_RANGES[price_cat]} {currency}"
     label = PRICE_LABELS[price_cat]
     return market_price, label

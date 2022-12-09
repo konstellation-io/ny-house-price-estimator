@@ -7,16 +7,15 @@ from pathlib import Path
 
 import joblib
 import pandas as pd
+from lib.viz import plot_confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, roc_auc_score
 from sklearn.model_selection import ParameterGrid, train_test_split
 
-from lib.viz import plot_confusion_matrix
 
-
-def classifiers_hyperparam_search(
-    mlflow, config: ConfigParser, mlflow_url: str, train_params: dict, mlflow_tags: dict
-) -> None:
+def classifiers_hyperparam_search(mlflow, config: ConfigParser,
+                                  mlflow_url: str, train_params: dict,
+                                  mlflow_tags: dict) -> None:
     """
     Trains a series of RandomForest models iterating through all combinations of training parameters as defined in
     train_params, logging the hyperparams and the resulting model and metrics and model to mlflow.
@@ -40,7 +39,8 @@ def classifiers_hyperparam_search(
     fpath_processed_data = dir_processed / config["data"]["fname_processed"]
     dir_artifacts = Path(config["artifacts"]["temporal_folder"])
     fpath_model = str(dir_artifacts / config["outputs"]["fname_model"])
-    fpath_conf_matrix = str(dir_artifacts / config["outputs"]["fname_conf_matrix"])
+    fpath_conf_matrix = str(dir_artifacts /
+                            config["outputs"]["fname_conf_matrix"])
     include_amenities = bool(config["training"]["include_amenities"])
     mlflow_experiment = config["mlflow"]["mlflow_experiment"]
 
@@ -79,9 +79,10 @@ def classifiers_hyperparam_search(
 
         X = df[cols]
         y = df["category"]
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.15, random_state=1
-        )
+        X_train, X_test, y_train, y_test = train_test_split(X,
+                                                            y,
+                                                            test_size=0.15,
+                                                            random_state=1)
 
         # Iterate through hyperparameter space:
         for params in ParameterGrid(train_params):
@@ -100,11 +101,13 @@ def classifiers_hyperparam_search(
 
                 metrics = dict()
                 metrics["accuracy"] = accuracy_score(y_test, y_pred)
-                metrics["roc_auc"] = roc_auc_score(y_test, y_proba, multi_class="ovr")
+                metrics["roc_auc"] = roc_auc_score(y_test,
+                                                   y_proba,
+                                                   multi_class="ovr")
 
-                plot_confusion_matrix(
-                    y_pred=y_pred, y_true=y_test, filepath=fpath_conf_matrix
-                )
+                plot_confusion_matrix(y_pred=y_pred,
+                                      y_true=y_test,
+                                      filepath=fpath_conf_matrix)
 
                 # Log to MLflow
                 mlflow.log_params(params)

@@ -14,9 +14,9 @@ def preprocess_target_variable(df: DataFrame) -> DataFrame:
     """
     df["price"] = df["price"].str.extract(r"(\d+).")
     df["price"] = df["price"].astype(int)
-    df["category"] = pd.cut(
-        df["price"], bins=[10, 90, 180, 400, np.inf], labels=[0, 1, 2, 3]
-    )
+    df["category"] = pd.cut(df["price"],
+                            bins=[10, 90, 180, 400, np.inf],
+                            labels=[0, 1, 2, 3])
     return df
 
 

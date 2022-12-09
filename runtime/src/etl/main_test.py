@@ -1,10 +1,10 @@
-from internal_nodes_pb2 import EtlOutput
-from main import init, handler
-from unittest import mock
 import os
+from unittest import mock
 
-import pytest
 import joblib
+import pytest
+from internal_nodes_pb2 import EtlOutput
+from main import handler, init
 
 
 class CtxMock:
@@ -26,7 +26,7 @@ def test_init():
 @pytest.mark.asyncio
 async def test_handler():
     ctx = CtxMock()
-    ctx.get.return_value = joblib.load('../../models/encoder.joblib')
+    ctx.get.return_value = joblib.load("../../models/encoder.joblib")
 
     expected_result = EtlOutput()
     req = expected_result.request
@@ -57,6 +57,7 @@ async def test_handler():
     model_input.internet = False
 
     class DataMock:
+
         def Unpack(self, obj):
             obj.neighbourhood = req.neighbourhood
             obj.latitude = req.latitude
