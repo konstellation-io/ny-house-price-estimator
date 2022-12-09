@@ -1,4 +1,4 @@
-FROM konstellation/kre-py:2.1.5
+FROM konstellation/kre-py:3.0.0
 
 ENV PYTHONPATH=/kre/.local/lib/python3.9/site-packages/
 

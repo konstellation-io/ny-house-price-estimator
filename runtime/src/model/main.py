@@ -3,7 +3,7 @@ from internal_nodes_pb2 import EtlOutput, ModelOutput
 from sklearn.ensemble import RandomForestClassifier
 
 
-def init(ctx):
+def init(ctx) -> None:
     ctx.logger.info("Initializing runner")
 
     model_path = ctx.path("models/model.joblib")
@@ -14,7 +14,7 @@ def init(ctx):
     ctx.logger.info("Model loaded")
 
 
-async def handler(ctx, data) -> ModelOutput:
+async def default_handler(ctx, data) -> None:
     req = EtlOutput()
     data.Unpack(req)
 
@@ -25,12 +25,11 @@ async def handler(ctx, data) -> ModelOutput:
     res.request.CopyFrom(req.request)
     res.price_category = price_category
 
-    return res
+    await ctx.send_output(res)
+    return
 
 
-def predict_price_category(
-    clf: RandomForestClassifier, features: EtlOutput.ModelInput
-) -> int:
+def predict_price_category(clf: RandomForestClassifier, features: EtlOutput.ModelInput) -> float:
     model_input = [
         [
             features.accommodates,

@@ -3,7 +3,7 @@ from datetime import datetime
 from public_input_pb2 import SaveMetricRequest, SaveMetricResponse
 
 
-async def handler(ctx, data):
+async def default_handler(ctx, data) -> None:
     req = SaveMetricRequest()
     data.Unpack(req)
 
@@ -13,6 +13,7 @@ async def handler(ctx, data):
 
     res = SaveMetricResponse()
     res.success = True
-    res.message = 'Prediction metric saved'
+    res.message = "Prediction metric saved"
 
-    return res
+    await ctx.send_output(res)
+    return

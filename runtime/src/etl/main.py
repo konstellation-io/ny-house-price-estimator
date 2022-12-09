@@ -1,28 +1,31 @@
 import joblib
 
+from typing import Any, Dict
+
 from internal_nodes_pb2 import EtlOutput
 from public_input_pb2 import Request
 
 
-def init(ctx):
-    ctx.logger.info('Initializing runner')
+def init(ctx) -> None:
+    ctx.logger.info("Initializing runner")
 
-    encoder_path = ctx.path('models/encoder.joblib')
-    ctx.logger.info(f'Loading encoder from {encoder_path}')
+    encoder_path = ctx.path("models/encoder.joblib")
+    ctx.logger.info(f"Loading encoder from {encoder_path}")
 
-    encoder: dict = joblib.load(encoder_path)
-    ctx.set('encoder', encoder)
-    ctx.logger.info('Encoder loaded')
+    encoder: Dict = joblib.load(encoder_path)
+    ctx.set("encoder", encoder)
+    ctx.logger.info("Encoder loaded")
 
 
-async def handler(ctx, data) -> EtlOutput:
+async def default_handler(ctx, data) -> None:
     req = Request()
     data.Unpack(req)
-    encoder: dict = ctx.get('encoder')
-    return new_etl_output(encoder, req)
+    encoder: Dict = ctx.get("encoder")
+    await new_etl_output(ctx, encoder, req)
+    return
 
 
-def new_etl_output(encoder, req: Request) -> EtlOutput:
+async def new_etl_output(ctx, encoder: Dict[str, Any], req: Request):
     res = EtlOutput()
     res.request.CopyFrom(req)
 
@@ -39,4 +42,5 @@ def new_etl_output(encoder, req: Request) -> EtlOutput:
     model_input.room_type = encoder["room_type"][req.room_type]
     model_input.neighbourhood = encoder["neighbourhood"][req.neighbourhood]
 
-    return res
+    await ctx.send_output(res)
+    return
