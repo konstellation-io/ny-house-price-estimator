@@ -12,7 +12,7 @@ pytest-cov = "*"
 pytest-asyncio = "*"
 
 [packages]
-protobuf = "==3.19.0"
+protobuf = "==3.19.5"
 joblib = "==0.17.0"
 
 [requires]
