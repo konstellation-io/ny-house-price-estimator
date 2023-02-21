@@ -1,14 +1,14 @@
 kind: secret
 name: minio-key-id
 get:
-  path: ny-house-price-estim-mlflow-secret
+  path: mlflow-server-secret
   name: AWS_ACCESS_KEY_ID
 
 ---
 kind: secret
 name: minio-secret
 get:
-  path: ny-house-price-estim-mlflow-secret
+  path: mlflow-server-secret
   name: AWS_SECRET_ACCESS_KEY
 
 ---
@@ -37,7 +37,7 @@ trigger:
 environment:
   PYTHONPATH: /drone/src/lab
   PATH_CONFIG: /drone/src/lab/processes/config.ini
-  MINIO_DATA_FOLDER: /shared-storage/ny-price-estimator/data
+  MINIO_DATA_FOLDER: /shared-storage/ny-house-price-estim/data
 
 steps:
   - name: preprocess-airbnb-data
@@ -105,7 +105,7 @@ trigger:
     - refs/tags/krt-*
 
 environment:
-  MINIO_KRT_FOLDER: /shared-storage/ny-price-estimator/krt
+  MINIO_KRT_FOLDER: /shared-storage/new-york-price-estim/krt
   MLFLOW_URL: http://mlflow-server:5000
   MLFLOW_S3_ENDPOINT_URL: http://kdl-server-minio:9000
   KLI_VERSION: 1.0-alpha.4
