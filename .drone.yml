@@ -32,7 +32,7 @@ name: preprocess-data
 
 trigger:
   ref:
-    - refs/tags/preprocess-data-*
+    - refs/tags/test-new-images-*
 
 environment:
   PYTHONPATH: /drone/src/lab
@@ -41,7 +41,7 @@ environment:
 
 steps:
   - name: preprocess-airbnb-data
-    image: terminus7/sci-toolkit-runner:1.1.0
+    image: konstellation/kdl-py:3.9-cuda10.2-cudnn8-devel-ubuntu18.04-1.0.0
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: minio-key-id
