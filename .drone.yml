@@ -41,7 +41,7 @@ environment:
 
 steps:
   - name: preprocess-airbnb-data
-    image: konstellation/kdl-py:3.9-cuda10.2-cudnn8-devel-ubuntu18.04-1.0.0
+    image: konstellation/kdl-py:3.9-cuda10.2-cudnn8-devel-ubuntu18.04-1.0.1
     environment:
       AWS_ACCESS_KEY_ID:
         from_secret: minio-key-id
