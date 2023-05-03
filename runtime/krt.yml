@@ -1,36 +1,55 @@
 version: price-estimator-v3
+krtVersion: v2
 description: New Room Price predictions.
 
 entrypoint:
   proto: public_input.proto
-  image: konstellation/kre-entrypoint:3.0.0
+  image: konstellation/kre-entrypoint:3.2.2
 
 config:
   variables:
     - OUTPUT_PRICE_CURRENCY
 
-nodes:
-  - name: etl
-    image: konstellation/ny-house-price-estimator:2.0.0
-    src: src/etl/main.py
-  - name: model
-    image: konstellation/ny-house-price-estimator:2.0.0
-    src: src/model/main.py
-  - name: output
-    image: konstellation/ny-house-price-estimator:2.0.0
-    src: src/output/main.py
-  - name: save-metric
-    image: konstellation/ny-house-price-estimator:2.0.0
-    src: src/save-prediction-metric/main.py
+#nodes:
+#  - name: etl
+#    image: konstellation/ny-house-price-estimator:2.0.0
+#    src: src/etl/main.py
+#  - name: model
+#    image: konstellation/ny-house-price-estimator:2.0.0
+#    src: src/model/main.py
+#  - name: output
+#    image: konstellation/ny-house-price-estimator:2.0.0
+#    src: src/output/main.py
+#  - name: save-metric
+#    image: konstellation/ny-house-price-estimator:2.0.0
+#    src: src/save-prediction-metric/main.py
 
 workflows:
   - name: ny-room-price
     entrypoint: MakePrediction
-    sequential:
-      - etl
-      - model
-      - output
+    exitpoint: output
+    nodes:
+      - name: etl
+        image: konstellation/ny-house-price-estimator:3.0.0
+        src: src/etl/main.py
+        subscriptions:
+          - entrypoint
+      - name: model
+        image: konstellation/ny-house-price-estimator:3.0.0
+        src: src/model/main.py
+        subscriptions:
+          - etl
+      - name: output
+        image: konstellation/ny-house-price-estimator:3.0.0
+        src: src/output/main.py
+        subscriptions:
+          - model
   - name: save-metric
     entrypoint: SavePredictionMetric
-    sequential:
-      - save-metric
+    nodes:
+      - name: save-metric
+        image: konstellation/ny-house-price-estimator:3.0.0
+        src: src/save-prediction-metric/main.py
+        exitpoint: save-metric
+        subscriptions:
+          - entrypoint
